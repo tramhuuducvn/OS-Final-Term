@@ -1,11 +1,40 @@
-import view.LoginFrame;
+import view.BackgroundPanel;
+import view.LoginPanel;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Enumeration;
 
-public class Main {
+public class MainFrame extends JFrame{
+    private static MainFrame instance;
+    BackgroundPanel backgroundPanel;
+
+    private MainFrame(){
+        backgroundPanel = new BackgroundPanel("res/images/background.png");
+        getContentPane().add(backgroundPanel);
+
+        setTitle("Children Pogram");
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setUndecorated(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    public static MainFrame getInstance(){
+        if(instance == null){
+            synchronized (MainFrame.class){
+                if(instance == null){
+                    instance = new MainFrame();
+                }
+            }
+        }
+        return instance;
+    }
+
     public static void main(String[] args){
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -37,7 +66,8 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				LoginFrame main = new LoginFrame();
+//				LoginPanel main = new LoginPanel();
+                MainFrame mainFrame = MainFrame.getInstance();
 			}
 		});
 	}

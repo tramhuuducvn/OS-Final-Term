@@ -9,14 +9,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-public class LoginFrame extends JFrame{
+public class LoginPanel extends JFrame{
     private JButton login;
 
-	public LoginFrame(){
-		setTitle("Login to Course Registration System");
+	public LoginPanel(){
+		setTitle("Children Pogram");
 		initFrame();
-		setSize(640, 480);
-		setLocationRelativeTo(null);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setUndecorated(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -29,7 +29,7 @@ public class LoginFrame extends JFrame{
 		Color c = new Color(227, 140, 0);
 
 
-		JLabel title2 = new JLabel("------- Login Course Registration System -------         ");
+		JLabel title2 = new JLabel("Children Program");
 		title2.setForeground(c);
 		floor.add(title2);
 		floor.add(Box.createRigidArea(new Dimension(0,15)));
