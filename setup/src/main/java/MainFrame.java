@@ -59,9 +59,12 @@ public class MainFrame extends JFrame {
         add(nextBtn);
         add(installBtn);
 
-        licensePanel = new LicensePanel();
-        licensePanel.setBounds(5,5,500, 400);
-        add(licensePanel);
+//        licensePanel = new LicensePanel();
+//        licensePanel.setBounds(5,5,500, 400);
+//        add(licensePanel);
+        registerPanel = new RegisterPanel();
+        registerPanel.setBounds(5,5,500, 400);
+        add(registerPanel);
     }
 
     public static void main(String[] args){
