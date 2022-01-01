@@ -14,12 +14,14 @@ public class MainFrame extends JFrame{
     BackgroundPanel backgroundPanel;
 
     private MainFrame(){
-        backgroundPanel = new BackgroundPanel("res/images/background.png");
+        backgroundPanel = new BackgroundPanel();
         getContentPane().add(backgroundPanel);
 
         setTitle("Children Pogram");
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
 //        setUndecorated(true);
+        setSize(500,500);
+//        pack();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }

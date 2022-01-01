@@ -9,16 +9,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-public class LoginPanel extends JFrame{
+public class LoginPanel extends JPanel{
     private JButton login;
+	private JPasswordField passTextField;
 
 	public LoginPanel(){
-		setTitle("Children Pogram");
-		initFrame();
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setUndecorated(true);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+
 		setVisible(true);
+	}
+	private void setupWidget(){
+		login = new JButton("Login");
+		passTextField = new JPasswordField();
 	}
 
     public void initFrame() {
