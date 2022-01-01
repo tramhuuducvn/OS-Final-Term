@@ -1,31 +1,27 @@
-import view.BackgroundPanel;
-import view.LoginPanel;
+import models.Schedule;
+import models.User;
+import views.LicensePanel;
+import views.RegisterPanel;
+import views.SetupSchedulePanel;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.Enumeration;
 
-public class MainFrame extends JFrame{
+public class MainFrame extends JFrame {
     private static MainFrame instance;
-    BackgroundPanel backgroundPanel;
 
-    private MainFrame(){
-        backgroundPanel = new BackgroundPanel();
-        getContentPane().add(backgroundPanel);
-        backgroundPanel.setContentPanel(new LoginPanel());
+    private User user;
+    private Schedule schedule;
 
-        setTitle("Children Pogram");
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        setUndecorated(true);
-        setSize(500,500);
-//        pack();
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setVisible(true);
-    }
+    private LicensePanel licensePanel;
+    private RegisterPanel registerPanel;
+    private SetupSchedulePanel setupShedulePanel;
+
+    private JButton cancelBtn;
+    private JButton nextBtn;
+    private JButton installBtn;
 
     public static MainFrame getInstance(){
         if(instance == null){
@@ -36,6 +32,36 @@ public class MainFrame extends JFrame{
             }
         }
         return instance;
+    }
+
+    public MainFrame(){
+        setLayout(null);
+        initWidget();
+        setTitle("Children Program Installer");
+        setSize(510,500);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
+    }
+
+    public void initWidget(){
+        cancelBtn = new JButton("Cancel");
+        nextBtn = new JButton("Next");
+        installBtn = new JButton("Install");
+        nextBtn.setEnabled(false);
+        installBtn.setEnabled(false);
+
+        cancelBtn.setBounds(210, 420, 90, 40);
+        nextBtn.setBounds(310, 420, 90, 40);
+        installBtn.setBounds(410, 420, 90, 40);
+        add(cancelBtn);
+        add(nextBtn);
+        add(installBtn);
+
+        licensePanel = new LicensePanel();
+        licensePanel.setBounds(5,5,500, 400);
+        add(licensePanel);
     }
 
     public static void main(String[] args){
@@ -66,13 +92,11 @@ public class MainFrame extends JFrame{
             java.util.logging.Logger.getLogger(JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-//				LoginPanel main = new LoginPanel();
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
                 MainFrame mainFrame = MainFrame.getInstance();
-			}
-		});
-	}
+            }
+        });
+    }
 }
-

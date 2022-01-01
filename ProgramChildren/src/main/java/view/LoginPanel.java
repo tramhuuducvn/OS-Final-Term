@@ -10,18 +10,45 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class LoginPanel extends JPanel{
-    private JButton login;
-	private JPasswordField passTextField;
+    private JButton loginBtn;
+	private JLabel headingLb;
+	private JLabel passwordLb;
+	private JPasswordField passwordTextField;
 
 	public LoginPanel(){
+		setLayout(null);
+		setPreferredSize(new Dimension(500, 170));
+		setMinimumSize(new Dimension(500, 170));
+		setMaximumSize(new Dimension(500, 170));
 
-
-		setVisible(true);
+		setupWidget();
 	}
 	private void setupWidget(){
-		login = new JButton("Login");
-		passTextField = new JPasswordField();
+		headingLb = new JLabel("Welcome to Children Programme!");
+		passwordLb = new JLabel("Enter your password:");
+		passwordTextField = new JPasswordField();
+		loginBtn = new JButton("Login");
+
+		headingLb.setBounds(10, 10, 480, 30);
+		passwordLb.setBounds(10, 50, 480, 30);
+		passwordTextField.setBounds(10, 82, 480, 30);
+		loginBtn.setBounds(290, 130, 200, 30);
+
+		add(headingLb);
+		add(passwordLb);
+		add(passwordTextField);
+		add(loginBtn);
+
 	}
+
+	MouseAdapter loginBtnAction = new MouseAdapter() {
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			if(SwingUtilities.isLeftMouseButton(e)) {
+
+			}
+		}
+	};
 
     public void initFrame() {
 		JPanel floor = new JPanel();
@@ -93,14 +120,14 @@ public class LoginPanel extends JPanel{
 			}
 		});
 
-		login = new JButton("Login");
-		login.setPreferredSize(new Dimension(100, 100));
-		login.setForeground(c);
+		loginBtn = new JButton("Login");
+		loginBtn.setPreferredSize(new Dimension(100, 100));
+		loginBtn.setForeground(c);
 //		login.setBackground(c);
 		Icon login_icon = ImageTool.getImageIcon("res/images/login_icon.png", 20, 20);
-		login.setIcon(login_icon);
-		login.setOpaque(true);
-		login.addMouseListener(new MouseAdapter() {
+		loginBtn.setIcon(login_icon);
+		loginBtn.setOpaque(true);
+		loginBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if(SwingUtilities.isLeftMouseButton(e)) {
@@ -110,7 +137,7 @@ public class LoginPanel extends JPanel{
 		});
 
 
-		floor7.add(login);
+		floor7.add(loginBtn);
 		floor7.add(Box.createRigidArea(new Dimension(15,0)));
 		floor.add(floor7);
 		floor.add(Box.createRigidArea(new Dimension(0,15)));
