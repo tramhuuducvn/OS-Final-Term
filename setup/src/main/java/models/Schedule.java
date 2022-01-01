@@ -3,11 +3,11 @@ package models;
 public class Schedule {
     String F; // from
     String T; // to
-    String D; // distance
-    String S; // sum
-    String I; // interrupt time
+    int D; // duration
+    int S; // sum
+    int I; // interrupt time
 
-    public Schedule(String f, String t, String d, String s, String i) {
+    public Schedule(String f, String t, int d, int s, int i) {
         F = f;
         T = t;
         D = d;
@@ -31,27 +31,27 @@ public class Schedule {
         T = t;
     }
 
-    public String getD() {
+    public int getD() {
         return D;
     }
 
-    public void setD(String d) {
+    public void setD(int d) {
         D = d;
     }
 
-    public String getS() {
+    public int getS() {
         return S;
     }
 
-    public void setS(String s) {
+    public void setS(int s) {
         S = s;
     }
 
-    public String getI() {
+    public int getI() {
         return I;
     }
 
-    public void setI(String i) {
+    public void setI(int i) {
         I = i;
     }
 }

@@ -1,15 +1,33 @@
 package views;
 
+
+import main.MainFrame;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-public class LicensePanel extends JPanel {
+public class LicensePanel extends NodePanel {
+    private static LicensePanel instance;
     private JLabel titleLb;
     private JLabel contentLb;
     private JLabel memberLb;
     private JCheckBox confirmLicenseCheckbox;
 
-    public LicensePanel(){
+    public static LicensePanel getInstance(){
+        if(instance == null){
+            synchronized (MainFrame.class){
+                if(instance == null){
+                    instance = new LicensePanel();
+                }
+            }
+        }
+        return instance;
+    }
+
+    private LicensePanel(){
+        nextPanel = RegisterPanel.getInstance();
         setLayout(null);
 
         setPreferredSize(new Dimension(500, 400));
@@ -31,6 +49,7 @@ public class LicensePanel extends JPanel {
                 "</html>");
 
         confirmLicenseCheckbox = new JCheckBox("I have read and accepted the above content!");
+        confirmLicenseCheckbox.addItemListener(confirmCheckBoxAction);
 
         titleLb.setBounds(10, 10, 480, 40);
         contentLb.setBounds(10, 60, 480, 90);
@@ -41,4 +60,16 @@ public class LicensePanel extends JPanel {
         add(memberLb);
         add(confirmLicenseCheckbox);
     }
+
+    private ItemListener confirmCheckBoxAction = new ItemListener() {
+        @Override
+        public void itemStateChanged(ItemEvent itemEvent) {
+            if(itemEvent.getStateChange() == ItemEvent.SELECTED){
+                MainFrame.getInstance().getNextBtn().setEnabled(true);
+            }
+            else{
+                MainFrame.getInstance().getNextBtn().setEnabled(false);
+            }
+        }
+    };
 }
