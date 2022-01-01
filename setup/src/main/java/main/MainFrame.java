@@ -104,13 +104,9 @@ public class MainFrame extends JFrame {
         @Override
         public void mouseReleased(MouseEvent e) {
             if(SwingUtilities.isLeftMouseButton(e)) {
-//                installBtn.setEnabled(false);
                 installBtn.setText("Installing...");
-//                System.out.println(user);
-//                System.out.println(schedule);
                 try{
                     FileInputStream serviceAccount =  new FileInputStream("config-database.json");
-
                     FirebaseOptions options = new FirebaseOptions.Builder()
                             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                             .setDatabaseUrl("https://process-memory-management-default-rtdb.asia-southeast1.firebasedatabase.app")
@@ -118,10 +114,8 @@ public class MainFrame extends JFrame {
 
                     FirebaseApp.initializeApp(options);
                     DatabaseReference data = FirebaseDatabase.getInstance().getReference();
-                    data.child("users").child(user.getComputerId());
-                    data.setValueAsync(user);
-                    data.child("schedules").child(user.getComputerId());
-                    data.setValueAsync(schedule);
+                    data.child("users").child(user.getComputerId()).setValueAsync(user);
+                    data.child("schedules").child(user.getComputerId()).setValueAsync(schedule);
                 }
                 catch (Exception exception){
                     exception.printStackTrace();
