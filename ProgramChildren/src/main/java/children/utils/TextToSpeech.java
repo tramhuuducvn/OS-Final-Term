@@ -47,8 +47,8 @@ public class TextToSpeech {
         }
     }
 
-    public static void main(String[] args){
-        speek("Remaining time 1 hour 45 minutes");
-    }
+//    public static void main(String[] args){
+//        speek("Remaining time 1 hour 45 minutes");
+//    }
 }
 

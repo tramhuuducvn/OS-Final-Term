@@ -9,68 +9,45 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.*;
 import com.google.gson.Gson;
 
+import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class PushNotify {
-    public static void main(String[] args){
-//        try{
-//            FileInputStream fileInputStream = new FileInputStream("res/data/computerId.dat");
-//            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-//            String userid = (String) objectInputStream.readObject();
-//            System.out.println(userid);
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        MainFrame.getInstance().setVisible(true);
+
+    public static void notice(String title, String mess){
+        JFrame frame = new JFrame();
+        frame.setLayout(null);
+
+        JLabel titleLb = new JLabel("<html><h1>"+ title + "</h1><html>");
+        JLabel lb = new JLabel("<html><p>" + mess + "</p><html>");
+        titleLb.setBounds(10,10,380,37);
+        lb.setBounds(10, 40, 380, 60);
+        frame.add(titleLb);
+        frame.add(lb);
+
+        frame.setSize(400, 100);
+        frame.setUndecorated(true);
+
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
+                frame.setVisible(true);
                 try{
-                    FileInputStream serviceAccount =  new FileInputStream("config-database.json");
-                    FirebaseOptions options = new FirebaseOptions.Builder()
-                            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                            .setDatabaseUrl("https://process-memory-management-default-rtdb.asia-southeast1.firebasedatabase.app")
-                            .build();
-
-                    FirebaseApp.initializeApp(options);
-                    DatabaseReference data = FirebaseDatabase.getInstance().getReference().child("schedules").child("abc");
-
-                    data.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-                            int s = Integer.parseInt(dataSnapshot.child("s").getValue().toString());
-                            int d = Integer.parseInt(dataSnapshot.child("d").getValue().toString());
-                            int i = Integer.parseInt(dataSnapshot.child("i").getValue().toString());
-                            String f = dataSnapshot.child("f").getValue().toString();
-                            String t = dataSnapshot.child("t").getValue().toString();
-                            Schedule schedule = new Schedule(f,t,d,s,i);
-                            System.out.println(s);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            System.out.println("FAILED!");
-                        }
-                    });
-                    try {
-                        Thread.sleep(3000);
-                    }
-                    catch (Exception e){
-                    }
+                    Thread.sleep(5000);
                 }
-                catch (Exception exception){
-                    exception.printStackTrace();
+                catch (Exception e){
+                    e.printStackTrace();
                 }
-
-
+                frame.dispose();
             }
         });
         t.start();
+    }
 
+    public static void main(String[] args){
+//        notice("See you later! \n This computer will be shutdown after 15s!");
     }
 }

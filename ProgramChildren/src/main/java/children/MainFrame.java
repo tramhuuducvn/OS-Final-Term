@@ -1,5 +1,6 @@
 package children;
 
+import children.models.AppStatus;
 import children.models.Schedule;
 import children.models.User;
 import children.views.BackgroundPanel;
@@ -14,20 +15,28 @@ import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import javax.tools.FileObject;
 import java.awt.*;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.*;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 
 public class MainFrame extends JFrame{
     private static MainFrame instance;
     private User user;
+    private AppStatus appStatus;
+    private boolean isParent;
     private Schedule schedule;
     BackgroundPanel backgroundPanel;
 
+
     private MainFrame(){
+        isParent = false;
         loadingStatus();
         setupDatabase();
+        listenScheduleChange();
+        // init background
         backgroundPanel = new BackgroundPanel();
         getContentPane().add(backgroundPanel);
         backgroundPanel.setContentPanel(new LoginPanel());
@@ -39,6 +48,11 @@ public class MainFrame extends JFrame{
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent windowEvent) {
+                saveStatus();
+            }
+        });
     }
 
     public static MainFrame getInstance(){
@@ -55,6 +69,7 @@ public class MainFrame extends JFrame{
     private String computerId;
     public void loadingStatus(){
         try{
+            // get computer_id
             FileInputStream fileInputStream = new FileInputStream("res/data/computerId.dat");
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             computerId = (String) objectInputStream.readObject();
@@ -63,15 +78,39 @@ public class MainFrame extends JFrame{
         catch (Exception e){
             e.printStackTrace();
         }
+
+        try(FileInputStream statusFile = new FileInputStream("res/data/status.dat")) {
+            ObjectInputStream os = new ObjectInputStream(statusFile);
+            appStatus = (AppStatus) os.readObject();
+            Date date = Calendar.getInstance().getTime();
+            if(!appStatus.isSameDate(date)){
+                appStatus.setTimeused(0);
+                appStatus.setBreaktime(0);
+            }
+        }
+        catch (Exception e){
+            appStatus = new AppStatus();
+            saveStatus();
+//            try(FileOutputStream outputStream = new FileOutputStream("res/data/status.dat")){
+//                appStatus = new AppStatus();
+//                ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+//                objectOutputStream.writeObject(appStatus);
+//            }
+//            catch (Exception e1){
+//                e1.printStackTrace();
+//            }
+//            e.printStackTrace();
+        }
     }
 
-    public void setupDatabase(){
+    private void setupDatabase(){
         try{
             // Listening data from Firebase
             FileInputStream serviceAccount =  new FileInputStream("config-database.json");
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .setDatabaseUrl("https://process-memory-management-default-rtdb.asia-southeast1.firebasedatabase.app")
+                    .setStorageBucket("process-memory-management.appspot.com")
                     .build();
             FirebaseApp.initializeApp(options);
 
@@ -91,7 +130,15 @@ public class MainFrame extends JFrame{
 
                 }
             });
+        }
+        catch (Exception exception){
+            exception.printStackTrace();
+        }
+    }
 
+    private void listenScheduleChange(){
+        try{
+            DatabaseReference data = FirebaseDatabase.getInstance().getReference();
             data.child("schedules").child(computerId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -113,6 +160,34 @@ public class MainFrame extends JFrame{
         catch (Exception exception){
             exception.printStackTrace();
         }
+    }
+
+    public boolean saveStatus(){
+        try(FileOutputStream outputStream = new FileOutputStream("res/data/status.dat")){
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            objectOutputStream.writeObject(appStatus);
+        }
+        catch (Exception e1){
+            e1.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public AppStatus getAppStatus() {
+        return appStatus;
+    }
+
+    public void setAppStatus(AppStatus appStatus) {
+        this.appStatus = appStatus;
+    }
+
+    public boolean isParent() {
+        return isParent;
+    }
+
+    public void setParent(boolean parent) {
+        isParent = parent;
     }
 
     public User getUser() {

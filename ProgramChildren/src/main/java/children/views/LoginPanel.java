@@ -11,14 +11,18 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 public class LoginPanel extends JPanel{
     private JButton loginBtn;
+	private int failedPass;
 	private JLabel headingLb;
 	private JLabel passwordLb;
 	private JPasswordField passwordTextField;
 
 	public LoginPanel(){
+		failedPass = 0;
 		setLayout(null);
 		setPreferredSize(new Dimension(500, 170));
 		setMinimumSize(new Dimension(500, 170));
@@ -54,18 +58,45 @@ public class LoginPanel extends JPanel{
 					JOptionPane.showMessageDialog(loginBtn, "Please enter your password!", "Warning", JOptionPane.WARNING_MESSAGE);
 					return;
 				}
+
 				if(MainFrame.getInstance().getUser().getParentKey().equals(pass)){
 					TimeManager.NoticeReEnterPassword();
 					passwordTextField.setText("");
 				}
 				else {
-					Schedule schedule = MainFrame.getInstance().getSchedule();
+					if(TimeManager.isTimeForChildren()){
+						if(MainFrame.getInstance().getUser().getChildrenKey().equals(pass)) {
+							failedPass = 0;
+							int timebreak = MainFrame.getInstance().getAppStatus().getBreaktime();
+							long differMiliseconds = Calendar.getInstance().getTime().getTime() - MainFrame.getInstance().getAppStatus().getTimeShutdown().getTime();
+							long remainBreakTime = timebreak - differMiliseconds/60000;
+							if(remainBreakTime <=0 ){
+								MainFrame.getInstance().getAppStatus().setBreaktime(0);
 
-					if(MainFrame.getInstance().getUser().getChildrenKey().equals(pass)) {
-
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Re-start computer after " + remainBreakTime + "minutes", "Warning", JOptionPane.WARNING_MESSAGE);
+								TimeManager.shutdownNow(false);
+							}
+						}
+						else{
+							failedPass += 1;
+							if(failedPass == 3){
+								failedPass = 0;
+								MainFrame.getInstance().getAppStatus().setBreaktime(10);
+								MainFrame.getInstance().getAppStatus().setTimeShutdown(Calendar.getInstance().getTime());
+								JOptionPane.showMessageDialog(null, "Wrong password 3 times. Try again after 10 minutes!", "Warning", JOptionPane.WARNING_MESSAGE);
+								TimeManager.shutdownNow(true);
+							}
+							else {
+								JOptionPane.showMessageDialog(loginBtn, "Your password is not valid!\n Try again", "Warning", JOptionPane.WARNING_MESSAGE);
+							}
+						}
 					}
-					else{
-
+					else {
+						TimeManager.NoticeTimeForChildren();
+						TimeManager.shutDown(15);
+//						JOptionPane.showMessageDialog(null, "Warning", "", JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}

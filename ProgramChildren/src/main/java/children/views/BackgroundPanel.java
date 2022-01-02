@@ -1,8 +1,11 @@
 // https://coderanch.com/t/598106/java/dynamically-resize-background-image-JPanel
 package children.views;
+import children.utils.ImageTool;
+
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -75,10 +78,11 @@ public class BackgroundPanel extends JPanel {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(new BackgroundPanel());
-        frame.pack();
-        frame.setVisible(true);
+//        JFrame frame = new JFrame();
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.getContentPane().add(new BackgroundPanel());
+//        frame.pack();
+//        frame.setVisible(true);
+        ImageTool.captureScreen();
     }
 }
