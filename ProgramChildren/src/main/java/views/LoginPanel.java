@@ -1,4 +1,4 @@
-package view;
+package views;
 
 import utils.ImageTool;
 import utils.OsCheck;

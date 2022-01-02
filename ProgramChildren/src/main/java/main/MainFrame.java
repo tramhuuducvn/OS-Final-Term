@@ -1,16 +1,17 @@
-import view.BackgroundPanel;
-import view.LoginPanel;
+package main;
 
-import javax.imageio.ImageIO;
+import models.User;
+import views.BackgroundPanel;
+import views.LoginPanel;
+
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.Enumeration;
 
 public class MainFrame extends JFrame{
     private static MainFrame instance;
+    private User user;
     BackgroundPanel backgroundPanel;
 
     private MainFrame(){
@@ -21,8 +22,8 @@ public class MainFrame extends JFrame{
         setTitle("Children Pogram");
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);
 //        setUndecorated(true);
-        setSize(500,500);
-//        pack();
+        setSize(1000,800);
+        setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
@@ -36,6 +37,10 @@ public class MainFrame extends JFrame{
             }
         }
         return instance;
+    }
+
+    private void loadingData(){
+
     }
 
     public static void main(String[] args){

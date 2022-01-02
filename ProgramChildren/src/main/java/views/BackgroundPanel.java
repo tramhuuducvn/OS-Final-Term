@@ -1,20 +1,13 @@
 // https://coderanch.com/t/598106/java/dynamically-resize-background-image-JPanel
-package view;
+package views;
 import java.awt.*;
-import java.awt.Dialog.ModalityType;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 
 public class BackgroundPanel extends JPanel {
     private static final long serialVersionUID = 7210857306625744220L;

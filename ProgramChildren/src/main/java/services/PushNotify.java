@@ -1,26 +1,25 @@
 package services;
 
+import models.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.util.Calendar;
 
 public class PushNotify {
     public static void main(String[] args){
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    for(int i = 0; i < 10; ++i){
-                        Thread.sleep(1000);
-                    }
-                    JOptionPane.showMessageDialog(null, "WARNING.","Warning", JOptionPane.WARNING_MESSAGE);
-                }
-                catch (Exception e){
-
-                }
-            }
-        });
-        t.start();
+//        try{
+//            FileInputStream fileInputStream = new FileInputStream("res/data/data.dat");
+//            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+//            User user = (User) objectInputStream.readObject();
+//            System.out.println(user);
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
     }
 }

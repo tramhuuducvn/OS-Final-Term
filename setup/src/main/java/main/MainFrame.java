@@ -16,6 +16,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.Enumeration;
 
 public class MainFrame extends JFrame {
@@ -116,6 +118,11 @@ public class MainFrame extends JFrame {
                     DatabaseReference data = FirebaseDatabase.getInstance().getReference();
                     data.child("users").child(user.getComputerId()).setValueAsync(user);
                     data.child("schedules").child(user.getComputerId()).setValueAsync(schedule);
+
+                    FileOutputStream fileOutputStream = new FileOutputStream("data.dat");
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                    objectOutputStream.writeObject(user);
+                    objectOutputStream.close();
                 }
                 catch (Exception exception){
                     exception.printStackTrace();
