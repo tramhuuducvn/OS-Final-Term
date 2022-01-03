@@ -1,19 +1,6 @@
 package children.services;
 
-import children.MainFrame;
-import children.models.Schedule;
-import children.models.User;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.database.*;
-import com.google.gson.Gson;
-
 import javax.swing.*;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 public class PushNotify {
 
@@ -45,9 +32,5 @@ public class PushNotify {
             }
         });
         t.start();
-    }
-
-    public static void main(String[] args){
-//        notice("See you later! \n This computer will be shutdown after 15s!");
     }
 }
