@@ -1,57 +1,57 @@
 package setup.models;
 
 public class Schedule {
-    String f; // from
-    String t; // to
-    int d; // duration
-    int s; // sum
-    int i; // interrupt time
+    String F; // from
+    String T; // to
+    int D; // duration
+    int S; // sum
+    int I; // interrupt time
 
-    public Schedule(String f, String t, int d, int s, int i) {
-        this.f = f;
-        this.t = t;
-        this.d = d;
-        this.s = s;
-        this.i = i;
+    public Schedule(String F, String T, int D, int S, int I) {
+        this.F = F;
+        this.T = T;
+        this.D = D;
+        this.S = S;
+        this.I = I;
     }
 
     public String getF() {
-        return f;
+        return F;
     }
 
     public void setF(String f) {
-        this.f = f;
+        F = f;
     }
 
     public String getT() {
-        return t;
+        return T;
     }
 
     public void setT(String t) {
-        this.t = t;
+        T = t;
     }
 
     public int getD() {
-        return d;
+        return D;
     }
 
     public void setD(int d) {
-        this.d = d;
+        D = d;
     }
 
     public int getS() {
-        return s;
+        return S;
     }
 
     public void setS(int s) {
-        this.s = s;
+        S = s;
     }
 
     public int getI() {
-        return i;
+        return I;
     }
 
     public void setI(int i) {
-        this.i = i;
+        I = i;
     }
 }

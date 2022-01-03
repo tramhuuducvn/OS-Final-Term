@@ -1,16 +1,12 @@
 package children.views;
 
 import children.MainFrame;
-import children.models.Schedule;
 import children.services.TimeManager;
-import children.utils.ImageTool;
-import children.utils.OsCheck;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 

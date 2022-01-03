@@ -6,13 +6,12 @@ import children.models.CustomTime;
 import children.models.Schedule;
 import children.utils.ImageTool;
 import children.utils.OsCheck;
-import children.utils.TextToSpeech;
 
 import javax.swing.*;
 import java.util.Calendar;
 
 public class TimeManager{
-    final static int min = 10000;
+    final static int min = 60000;
     final static int sixtymins = 60*min;
     public  static void NoticeReEnterPassword(){
         Thread t = new Thread(new Runnable() {
@@ -77,19 +76,20 @@ public class TimeManager{
     public static void shutdownNow(boolean save){
         if(save){
             MainFrame.getInstance().saveStatus();
-            System.out.println();
+//            System.out.println();
         }
-
-        OsCheck.OSType type = OsCheck.getOperatingSystemType();
-        switch (type) {
-            case Windows:
-                System.out.println("Shutdown Now");
-//                            Runtime.getRuntime().exec("shutdown -s -t 0");
-                break;
-            case Linux:
-                System.out.println("Shutdown Now");
-//                            Runtime.getRuntime().exec("shutdown now");
-                break;
+        try {
+            OsCheck.OSType type = OsCheck.getOperatingSystemType();
+            switch (type) {
+                case Windows:
+                    Runtime.getRuntime().exec("shutdown -s -t 0");
+                    break;
+                case Linux:
+                    Runtime.getRuntime().exec("shutdown now");
+                    break;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -128,7 +128,7 @@ public class TimeManager{
         int m = Calendar.getInstance().get(Calendar.MINUTE);
 
         int diffWithSum = schedule.getS() - appStatus.getTimeused();
-        System.out.println(appStatus.toString());
+//        System.out.println(appStatus.toString());
         int dur = schedule.getD() - currentMinUsed;
         int diffWithTimeEnd = T.getHours()*60 + T.getMinutes() - h*60 - m;
         int k = (diffWithTimeEnd < dur) ? diffWithTimeEnd:dur;
@@ -156,7 +156,7 @@ public class TimeManager{
             JOptionPane.showMessageDialog(null,"Exceed the time limit of use!\n Shutdown in 5s", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        PushNotify.notice("Time remaing " + timeRemain + " minutes ", "You can comback at " + timeComeback);
+        PushNotify.notice("Time remaining " + timeRemain + " minutes ", "You can comeback at " + timeComeback);
 
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -167,14 +167,14 @@ public class TimeManager{
                         ImageTool.captureScreen();
                         Thread.sleep(min);
                         currentMinUsed++;
-                        System.out.println("Current Min Used: " + currentMinUsed);
+//                        System.out.println("Current Min Used: " + currentMinUsed);
                         if(ischange){
-                            System.out.println("Schedule has been changed!");
+//                            System.out.println("Schedule has been changed!");
                             ischange = false;
                             return;
                         }
                     }
-                    PushNotify.notice("Time remaing 1 minutes ", "You can comback at " + timeComeback);
+                    PushNotify.notice("Time remaining 1 minutes ", "You can comeback at " + timeComeback);
                     ImageTool.captureScreen();
 
                     currentMinUsed++;
@@ -182,7 +182,6 @@ public class TimeManager{
                     if (currentMinUsed >= MainFrame.getInstance().getSchedule().getD()){
                         MainFrame.getInstance().getAppStatus().setBreaktime(MainFrame.getInstance().getSchedule().getI());
                         MainFrame.getInstance().getAppStatus().setTimeShutdown(Calendar.getInstance().getTime());
-                        System.out.println("Setted break time: ");
                     }
                     Thread.sleep(min);
                     shutdownNow(true);

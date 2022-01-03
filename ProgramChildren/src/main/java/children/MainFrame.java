@@ -6,7 +6,6 @@ import children.models.User;
 import children.services.TimeManager;
 import children.views.BackgroundPanel;
 import children.views.LoginPanel;
-import com.google.api.client.json.Json;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -14,11 +13,13 @@ import com.google.firebase.database.*;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
-import javax.tools.FileObject;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
@@ -103,7 +104,7 @@ public class MainFrame extends JFrame{
     private void setupDatabase(){
         try{
             // Listening data from Firebase
-            FileInputStream serviceAccount =  new FileInputStream("config-database.json");
+            FileInputStream serviceAccount =  new FileInputStream("./config-database.json");
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .setDatabaseUrl("https://process-memory-management-default-rtdb.asia-southeast1.firebasedatabase.app")

@@ -8,10 +8,10 @@ import static javax.sound.sampled.AudioFormat.Encoding.*;
 
 public class AudioFilePlayer {
 
-    public static void main(String[] args) {
-        final AudioFilePlayer player = new AudioFilePlayer ();
-        player.play("res/audio/thucuoi.mp3");
-    }
+//    public static void main(String[] args) {
+//        final AudioFilePlayer player = new AudioFilePlayer ();
+////        player.play("res/audio/exapmle.mp3");
+//    }
 
     public void play(String filePath) {
         final File file = new File(filePath);
