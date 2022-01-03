@@ -68,15 +68,22 @@ public class LoginPanel extends JPanel{
 						if(MainFrame.getInstance().getUser().getChildrenKey().equals(pass)) {
 							failedPass = 0;
 							int timebreak = MainFrame.getInstance().getAppStatus().getBreaktime();
-							long differMiliseconds = Calendar.getInstance().getTime().getTime() - MainFrame.getInstance().getAppStatus().getTimeShutdown().getTime();
-							long remainBreakTime = timebreak - differMiliseconds/60000;
+//							System.out.println("Timbreak:" + timebreak);
+							long remainBreakTime = -1;
+							Date shutdownDate = MainFrame.getInstance().getAppStatus().getTimeShutdown();
+							if(shutdownDate != null) {
+								long differMiliseconds = Calendar.getInstance().getTime().getTime() - shutdownDate.getTime();
+								remainBreakTime = timebreak - differMiliseconds / 60000;
+							}
+
 							if(remainBreakTime <= 0 ){
+								MainFrame.getInstance().setVisible(false);
 								MainFrame.getInstance().setChildrenLoged(true);
 								MainFrame.getInstance().getAppStatus().setBreaktime(0);
 								TimeManager.MonitoringMode();
 							}
 							else {
-								JOptionPane.showMessageDialog(null, "Re-start computer after " + remainBreakTime + "minutes", "Warning", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(null, "Re-start computer after " + remainBreakTime + " minutes", "Warning", JOptionPane.WARNING_MESSAGE);
 								TimeManager.shutdownNow(false);
 							}
 						}

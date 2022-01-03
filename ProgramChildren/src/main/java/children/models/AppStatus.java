@@ -30,6 +30,10 @@ public class AppStatus implements Serializable {
         return true;
     }
 
+    public void increaseTimeUsed(){
+        timeused++;
+    }
+
     public int getTimeused() {
         return timeused;
     }
@@ -52,5 +56,9 @@ public class AppStatus implements Serializable {
 
     public void setBreaktime(int breaktime) {
         this.breaktime = breaktime;
+    }
+
+    public String toString(){
+        return "Time shutdown: " + timeShutdown + "\nTime used: " + timeused + "\nBreak: " + breaktime;
     }
 }

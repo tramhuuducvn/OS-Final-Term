@@ -1,11 +1,13 @@
 package children.utils;
 
+import children.MainFrame;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Bucket;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.StorageClient;
+import com.sun.tools.javac.Main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -25,11 +27,11 @@ public class ImageTool {
 	}
 
 	public static void captureScreen(){
-		Date date = Calendar.getInstance().getTime();
-		String path = "res/images/";
+		String computerId = MainFrame.getInstance().getComputerId();
+		Calendar calendar = Calendar.getInstance();
 		String fileName = "Screenshot from " +
-				date.getYear() + "-" + date.getMonth() + 1 + "-" + date.getDate() + "_" +
-				date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + ".png";
+				calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + 1 + "-" + calendar.get(Calendar.DAY_OF_MONTH) + " " +
+				calendar.get(Calendar.HOUR_OF_DAY) + "-" + calendar.get(Calendar.MINUTE) + "-" + calendar.get(Calendar.SECOND) + ".png";
 		try {
 //			FileInputStream serviceAccount =  new FileInputStream("config-database.json");
 //			FirebaseOptions options = new FirebaseOptions.Builder()
@@ -46,7 +48,7 @@ public class ImageTool {
 			byte[] bytes = byteArrayOutputStream.toByteArray();
 
 			StorageClient storageClient = StorageClient.getInstance();
-			storageClient.bucket().create("images/" + fileName, bytes, "image/png");
+			storageClient.bucket().create("images/" + computerId + "/" + fileName, bytes, "image/png");
 		}
 		catch (Exception e){
 			e.printStackTrace();

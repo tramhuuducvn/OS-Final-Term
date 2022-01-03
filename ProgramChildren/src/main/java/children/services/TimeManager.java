@@ -12,7 +12,8 @@ import javax.swing.*;
 import java.util.Calendar;
 
 public class TimeManager{
-    final static int min = 60000;
+    final static int min = 10000;
+    final static int sixtymins = 60*min;
     public  static void NoticeReEnterPassword(){
         Thread t = new Thread(new Runnable() {
             @Override
@@ -20,7 +21,7 @@ public class TimeManager{
                 MainFrame.getInstance().setParent(true);
                 MainFrame.getInstance().setVisible(false);
                 try{
-                    Thread.sleep(3000);
+                    Thread.sleep(sixtymins);
                 }
                 catch (Exception e){
                     e.printStackTrace();
@@ -76,6 +77,7 @@ public class TimeManager{
     public static void shutdownNow(boolean save){
         if(save){
             MainFrame.getInstance().saveStatus();
+            System.out.println();
         }
 
         OsCheck.OSType type = OsCheck.getOperatingSystemType();
@@ -97,6 +99,7 @@ public class TimeManager{
         CustomTime T = new CustomTime(schedule.getT());
         String mess = "";
         Calendar calendar = Calendar.getInstance();
+
         if(calendar.getTime().getHours() <= F.getHours() && calendar.getTime().getMinutes() < F.getMinutes()){
             mess = "You can use this computer at " + F.getHours() + " hours " + F.getMinutes() + " minutes!";
         }
@@ -111,20 +114,33 @@ public class TimeManager{
     private static int currentMinUsed = 0;
     private static String timeComeback = "";
     public static int getRemaingTime(){
+        if(!isTimeForChildren()){
+            shutDown(15);
+            NoticeTimeForChildren();
+            return 0;
+        }
+
         Schedule schedule = MainFrame.getInstance().getSchedule();
         AppStatus appStatus = MainFrame.getInstance().getAppStatus();
-//        CustomTime F = new CustomTime(schedule.getF());
+        CustomTime F = new CustomTime(schedule.getF());
         CustomTime T = new CustomTime(schedule.getT());
         int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         int m = Calendar.getInstance().get(Calendar.MINUTE);
 
         int diffWithSum = schedule.getS() - appStatus.getTimeused();
+        System.out.println(appStatus.toString());
         int dur = schedule.getD() - currentMinUsed;
-        int diffTimeNow = T.getHours()*60 + T.getMinutes() - h*60 - m;
-        int k = (diffTimeNow < dur) ? diffTimeNow:dur;
+        int diffWithTimeEnd = T.getHours()*60 + T.getMinutes() - h*60 - m;
+        int k = (diffWithTimeEnd < dur) ? diffWithTimeEnd:dur;
         int timeRemain = (k < diffWithSum) ? k:diffWithSum;
 
-        timeComeback = ((h*60 + m + timeRemain + schedule.getI())/60)%24 +"hours" + (h*60 + m + timeRemain)%60 + " minutes";
+        if(timeRemain == dur){
+            timeComeback = ((h*60 + m + timeRemain + schedule.getI())/60)%24 +" hours " + (h*60 + m + timeRemain + schedule.getI())%60 + " minutes";
+        }
+        if(timeRemain == diffWithSum || timeRemain == diffWithTimeEnd){
+            timeComeback = F.getHours() + " hours " + F.getMinutes()  + " minutes tomorrow!";
+        }
+
         return timeRemain;
     }
 
@@ -132,33 +148,43 @@ public class TimeManager{
     public static void stopMonitoringMode(){
         ischange = true;
     }
+
     public static void MonitoringMode(){
         int timeRemain = getRemaingTime();
-        PushNotify.notice("Shuttdown after " + timeRemain + " minutes", "You can comback at " + timeComeback);
-        AppStatus appStatus = MainFrame.getInstance().getAppStatus();
-        int D  = MainFrame.getInstance().getSchedule().getD();
-        int breaktime = MainFrame.getInstance().getSchedule().getI();
+        if(timeRemain <= 0){
+            shutDown(5);
+            JOptionPane.showMessageDialog(null,"Exceed the time limit of use!\n Shutdown in 5s", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        PushNotify.notice("Time remaing " + timeRemain + " minutes ", "You can comback at " + timeComeback);
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     for (int i = timeRemain; i > 1; --i) {
-                        appStatus.setTimeused(appStatus.getTimeused() + 1);
+                        MainFrame.getInstance().getAppStatus().increaseTimeUsed();
                         ImageTool.captureScreen();
                         Thread.sleep(min);
                         currentMinUsed++;
+                        System.out.println("Current Min Used: " + currentMinUsed);
                         if(ischange){
+                            System.out.println("Schedule has been changed!");
                             ischange = false;
                             return;
                         }
                     }
-                    PushNotify.notice("Shuttdown after 1 minutes", "You can comback at " + timeComeback);
+                    PushNotify.notice("Time remaing 1 minutes ", "You can comback at " + timeComeback);
                     ImageTool.captureScreen();
-                    Thread.sleep(min);
+
                     currentMinUsed++;
-                    if (currentMinUsed >= D){
-                        appStatus.setBreaktime(breaktime);
+                    MainFrame.getInstance().getAppStatus().increaseTimeUsed();
+                    if (currentMinUsed >= MainFrame.getInstance().getSchedule().getD()){
+                        MainFrame.getInstance().getAppStatus().setBreaktime(MainFrame.getInstance().getSchedule().getI());
+                        MainFrame.getInstance().getAppStatus().setTimeShutdown(Calendar.getInstance().getTime());
+                        System.out.println("Setted break time: ");
                     }
+                    Thread.sleep(min);
                     shutdownNow(true);
                 }
                 catch (Exception e){

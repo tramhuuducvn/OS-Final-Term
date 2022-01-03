@@ -70,6 +70,9 @@ public class MainFrame extends JFrame{
     }
 
     private String computerId;
+    public String getComputerId(){
+        return computerId;
+    }
     public void loadingStatus(){
         try{
             // get computer_id
@@ -142,8 +145,9 @@ public class MainFrame extends JFrame{
                     String f = dataSnapshot.child("f").getValue().toString();
                     String t = dataSnapshot.child("t").getValue().toString();
                     schedule = new Schedule(f,t,d,s,i);
-                    TimeManager.stopMonitoringMode();
+                    appStatus.setBreaktime(schedule.getI());
                     if(!isParent && isChildrenLoged){
+                        TimeManager.stopMonitoringMode();
                         TimeManager.MonitoringMode();
                     }
                 }
