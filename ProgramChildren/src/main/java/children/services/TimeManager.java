@@ -1,6 +1,7 @@
 package children.services;
 
 import children.MainFrame;
+import children.models.AppStatus;
 import children.models.CustomTime;
 import children.models.Schedule;
 import children.utils.OsCheck;
@@ -103,5 +104,53 @@ public class TimeManager{
 
         JOptionPane.showMessageDialog(null, mess + "\n This computer will be shutdown after 15s", "Not time for children", JOptionPane.WARNING_MESSAGE);
 //        PushNotify.notice("Not time for children!", mess + "\nThis computer will be shutdown after 15s");
+    }
+
+    private static int currentMinUsed = 0;
+    public static int getRemaingTime(){
+        Schedule schedule = MainFrame.getInstance().getSchedule();
+        AppStatus appStatus = MainFrame.getInstance().getAppStatus();
+//        CustomTime F = new CustomTime(schedule.getF());
+        CustomTime T = new CustomTime(schedule.getT());
+        int h = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int m = Calendar.getInstance().get(Calendar.MINUTE);
+
+        int diffWithSum = schedule.getS() - appStatus.getTimeused();
+        int dur = schedule.getD() - currentMinUsed;
+        int diffTimeNow = T.getHours()*60 + T.getMinutes() - h*60 - m;
+        int k = (diffTimeNow < dur) ? diffTimeNow:dur;
+        int timeRemain = (k < diffWithSum) ? k:diffWithSum;
+        return timeRemain;
+    }
+
+    private static boolean ischange = false;
+    public static void stopMonitoringMode(){
+        ischange = true;
+    }
+    public static void MonitoringMode(){
+        int timeRemain = getRemaingTime();
+        PushNotify.notice("Shuttdown after " + timeRemain + "minutes", "You can comback at ");
+        AppStatus appStatus = MainFrame.getInstance().getAppStatus();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    for (int i = timeRemain; i > 1; --i) {
+                        currentMinUsed++;
+                        appStatus.setTimeused(appStatus.getTimeused() + 1);
+                        Thread.sleep(60000);
+                        if(ischange){
+                            ischange = false;
+                            return;
+                        }
+                    }
+                    PushNotify.notice("Shuttdown after 1 minutes", "You can comback at ");
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 }

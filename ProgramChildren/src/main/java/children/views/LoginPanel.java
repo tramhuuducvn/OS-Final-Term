@@ -72,7 +72,7 @@ public class LoginPanel extends JPanel{
 							long remainBreakTime = timebreak - differMiliseconds/60000;
 							if(remainBreakTime <=0 ){
 								MainFrame.getInstance().getAppStatus().setBreaktime(0);
-
+								TimeManager.MonitoringMode();
 							}
 							else {
 								JOptionPane.showMessageDialog(null, "Re-start computer after " + remainBreakTime + "minutes", "Warning", JOptionPane.WARNING_MESSAGE);

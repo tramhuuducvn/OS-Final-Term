@@ -28,7 +28,7 @@ public class ImageTool {
 		Date date = Calendar.getInstance().getTime();
 		String path = "res/images/";
 		String fileName = "Screenshot from " +
-				date.getYear() + "-" + date.getMonth() + 1 + "-" + date.getDay() + "_" +
+				date.getYear() + "-" + date.getMonth() + 1 + "-" + date.getDate() + "_" +
 				date.getHours() + "-" + date.getMinutes() + "-" + date.getSeconds() + ".png";
 		try {
 //			FileInputStream serviceAccount =  new FileInputStream("config-database.json");
