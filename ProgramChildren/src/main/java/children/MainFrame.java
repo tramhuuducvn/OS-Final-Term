@@ -93,8 +93,8 @@ public class MainFrame extends JFrame{
             appStatus = (AppStatus) os.readObject();
             Date date = Calendar.getInstance().getTime();
             if(!appStatus.isSameDate(date)){
-                appStatus.setTimeused(0);
-                appStatus.setBreaktime(0);
+                appStatus.setUsedTime(0);
+                appStatus.setBreakTime(0);
             }
         }
         catch (Exception e){
@@ -149,7 +149,7 @@ public class MainFrame extends JFrame{
                     String f = dataSnapshot.child("f").getValue().toString();
                     String t = dataSnapshot.child("t").getValue().toString();
                     schedule = new Schedule(f,t,d,s,i);
-                    appStatus.setBreaktime(schedule.getI());
+                    appStatus.setBreakTime(schedule.getI());
                     if(!isParent && isChildrenLoged){
                         TimeManager.stopMonitoringMode();
                         TimeManager.MonitoringMode();
@@ -239,17 +239,11 @@ public class MainFrame extends JFrame{
                     UIManager.put(key, new FontUIResource(font));
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (java.lang.InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-		EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 //				LoginPanel main = new LoginPanel();

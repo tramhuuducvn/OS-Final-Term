@@ -7,10 +7,10 @@ public class CustomTime {
         this.hours = hours;
         this.minutes = minutes;
     }
-    public CustomTime(String src) {
-        String[] srcs = src.split(":");
-        this.hours = Integer.parseInt(srcs[0]);
-        this.minutes = Integer.parseInt(srcs[1]);
+    public CustomTime(String timeString) {
+        String[] timeTokens = timeString.split(":");
+        this.hours = Integer.parseInt(timeTokens[0]);
+        this.minutes = Integer.parseInt(timeTokens[1]);
     }
 
     public int getHours() {

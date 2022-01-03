@@ -8,11 +8,6 @@ import static javax.sound.sampled.AudioFormat.Encoding.*;
 
 public class AudioFilePlayer {
 
-//    public static void main(String[] args) {
-//        final AudioFilePlayer player = new AudioFilePlayer ();
-////        player.play("res/audio/exapmle.mp3");
-//    }
-
     public void play(String filePath) {
         final File file = new File(filePath);
 
@@ -21,9 +16,7 @@ public class AudioFilePlayer {
             final AudioFormat outFormat = getOutFormat(in.getFormat());
             final DataLine.Info info = new DataLine.Info(SourceDataLine.class, outFormat);
 
-            try (final SourceDataLine line =
-                         (SourceDataLine) AudioSystem.getLine(info)) {
-
+            try (final SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info)) {
                 if (line != null) {
                     line.open(outFormat);
                     line.start();
@@ -33,9 +26,7 @@ public class AudioFilePlayer {
                 }
             }
 
-        } catch (UnsupportedAudioFileException
-                | LineUnavailableException
-                | IOException e) {
+        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             throw new IllegalStateException(e);
         }
     }

@@ -70,7 +70,7 @@ public class LoginPanel extends JPanel{
 					if(TimeManager.isTimeForChildren()){
 						if(MainFrame.getInstance().getUser().getChildrenKey().equals(pass)) {
 							failedPass = 0;
-							int timebreak = MainFrame.getInstance().getAppStatus().getBreaktime();
+							int timebreak = MainFrame.getInstance().getAppStatus().getBreakTime();
 //							System.out.println("Timbreak:" + timebreak);
 							long remainBreakTime = -1;
 							Date shutdownDate = MainFrame.getInstance().getAppStatus().getTimeShutdown();
@@ -82,7 +82,7 @@ public class LoginPanel extends JPanel{
 							if(remainBreakTime <= 0 ){
 								MainFrame.getInstance().setVisible(false);
 								MainFrame.getInstance().setChildrenLoged(true);
-								MainFrame.getInstance().getAppStatus().setBreaktime(0);
+								MainFrame.getInstance().getAppStatus().setBreakTime(0);
 								TimeManager.MonitoringMode();
 							}
 							else {
@@ -94,7 +94,7 @@ public class LoginPanel extends JPanel{
 							failedPass += 1;
 							if(failedPass == 3){
 								failedPass = 0;
-								MainFrame.getInstance().getAppStatus().setBreaktime(10);
+								MainFrame.getInstance().getAppStatus().setBreakTime(10);
 								MainFrame.getInstance().getAppStatus().setTimeShutdown(Calendar.getInstance().getTime());
 								JOptionPane.showMessageDialog(null, "Wrong password 3 times. Try again after 10 minutes!", "Warning", JOptionPane.WARNING_MESSAGE);
 								TimeManager.shutdownNow(true);

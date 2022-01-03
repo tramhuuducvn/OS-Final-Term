@@ -16,7 +16,11 @@ public class Schedule {
     }
 
     public boolean isChange(Schedule schedule){
-        if(f.equals(schedule.getF()) && t.equals(schedule.getT()) && d == schedule.getD() && s == schedule.getS() && i == schedule.getI()){
+        if(f.equals(schedule.getF())
+                && t.equals(schedule.getT())
+                && d == schedule.getD()
+                && s == schedule.getS()
+                && i == schedule.getI()){
             return true;
         }
         return false;

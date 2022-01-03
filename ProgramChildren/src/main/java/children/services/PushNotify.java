@@ -18,18 +18,14 @@ public class PushNotify {
         frame.setSize(400, 100);
         frame.setUndecorated(true);
 
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        Thread t = new Thread(() -> {
+            try {
                 frame.setVisible(true);
-                try{
-                    Thread.sleep(5000);
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-                frame.dispose();
+                Thread.sleep(5000);
+            } catch (Exception e){
+                e.printStackTrace();
             }
+            frame.dispose();
         });
         t.start();
     }

@@ -4,20 +4,20 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class AppStatus implements Serializable {
-    private int timeused;
+    private int usedTime;
     private Date timeShutdown;
-    private int breaktime;
+    private int breakTime;
 
     public AppStatus() {
-        this.timeused = 0;
+        this.usedTime = 0;
         timeShutdown = null;
-        breaktime = 0;
+        breakTime = 0;
     }
 
-    public AppStatus(int timeused, Date timeShutdown, int breaktime) {
-        this.timeused = timeused;
+    public AppStatus(int usedTime, Date timeShutdown, int breakTime) {
+        this.usedTime = usedTime;
         this.timeShutdown = timeShutdown;
-        this.breaktime = breaktime;
+        this.breakTime = breakTime;
     }
     public boolean isSameDate(Date date){
         if(timeShutdown == null){
@@ -30,15 +30,15 @@ public class AppStatus implements Serializable {
     }
 
     public void increaseTimeUsed(){
-        timeused++;
+        usedTime++;
     }
 
-    public int getTimeused() {
-        return timeused;
+    public int getUsedTime() {
+        return usedTime;
     }
 
-    public void setTimeused(int timeused) {
-        this.timeused = timeused;
+    public void setUsedTime(int usedTime) {
+        this.usedTime = usedTime;
     }
 
     public Date getTimeShutdown() {
@@ -49,15 +49,15 @@ public class AppStatus implements Serializable {
         this.timeShutdown = timeShutdown;
     }
 
-    public int getBreaktime() {
-        return breaktime;
+    public int getBreakTime() {
+        return breakTime;
     }
 
-    public void setBreaktime(int breaktime) {
-        this.breaktime = breaktime;
+    public void setBreakTime(int breakTime) {
+        this.breakTime = breakTime;
     }
 
     public String toString(){
-        return "Time shutdown: " + timeShutdown + "\nTime used: " + timeused + "\nBreak: " + breaktime;
+        return "Time shutdown: " + timeShutdown + "\nTime used: " + usedTime + "\nBreak: " + breakTime;
     }
 }
