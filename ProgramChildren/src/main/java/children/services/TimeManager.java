@@ -4,6 +4,7 @@ import children.MainFrame;
 import children.models.AppStatus;
 import children.models.CustomTime;
 import children.models.Schedule;
+import children.utils.ImageTool;
 import children.utils.OsCheck;
 import children.utils.TextToSpeech;
 
@@ -11,6 +12,7 @@ import javax.swing.*;
 import java.util.Calendar;
 
 public class TimeManager{
+    final static int min = 60000;
     public  static void NoticeReEnterPassword(){
         Thread t = new Thread(new Runnable() {
             @Override
@@ -107,6 +109,7 @@ public class TimeManager{
     }
 
     private static int currentMinUsed = 0;
+    private static String timeComeback = "";
     public static int getRemaingTime(){
         Schedule schedule = MainFrame.getInstance().getSchedule();
         AppStatus appStatus = MainFrame.getInstance().getAppStatus();
@@ -120,6 +123,8 @@ public class TimeManager{
         int diffTimeNow = T.getHours()*60 + T.getMinutes() - h*60 - m;
         int k = (diffTimeNow < dur) ? diffTimeNow:dur;
         int timeRemain = (k < diffWithSum) ? k:diffWithSum;
+
+        timeComeback = ((h*60 + m + timeRemain + schedule.getI())/60)%24 +"hours" + (h*60 + m + timeRemain)%60 + " minutes";
         return timeRemain;
     }
 
@@ -129,22 +134,32 @@ public class TimeManager{
     }
     public static void MonitoringMode(){
         int timeRemain = getRemaingTime();
-        PushNotify.notice("Shuttdown after " + timeRemain + "minutes", "You can comback at ");
+        PushNotify.notice("Shuttdown after " + timeRemain + " minutes", "You can comback at " + timeComeback);
         AppStatus appStatus = MainFrame.getInstance().getAppStatus();
+        int D  = MainFrame.getInstance().getSchedule().getD();
+        int breaktime = MainFrame.getInstance().getSchedule().getI();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     for (int i = timeRemain; i > 1; --i) {
-                        currentMinUsed++;
                         appStatus.setTimeused(appStatus.getTimeused() + 1);
-                        Thread.sleep(60000);
+                        ImageTool.captureScreen();
+                        Thread.sleep(min);
+                        currentMinUsed++;
                         if(ischange){
                             ischange = false;
                             return;
                         }
                     }
-                    PushNotify.notice("Shuttdown after 1 minutes", "You can comback at ");
+                    PushNotify.notice("Shuttdown after 1 minutes", "You can comback at " + timeComeback);
+                    ImageTool.captureScreen();
+                    Thread.sleep(min);
+                    currentMinUsed++;
+                    if (currentMinUsed >= D){
+                        appStatus.setBreaktime(breaktime);
+                    }
+                    shutdownNow(true);
                 }
                 catch (Exception e){
                     e.printStackTrace();

@@ -70,7 +70,8 @@ public class LoginPanel extends JPanel{
 							int timebreak = MainFrame.getInstance().getAppStatus().getBreaktime();
 							long differMiliseconds = Calendar.getInstance().getTime().getTime() - MainFrame.getInstance().getAppStatus().getTimeShutdown().getTime();
 							long remainBreakTime = timebreak - differMiliseconds/60000;
-							if(remainBreakTime <=0 ){
+							if(remainBreakTime <= 0 ){
+								MainFrame.getInstance().setChildrenLoged(true);
 								MainFrame.getInstance().getAppStatus().setBreaktime(0);
 								TimeManager.MonitoringMode();
 							}

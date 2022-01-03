@@ -3,6 +3,7 @@ package children;
 import children.models.AppStatus;
 import children.models.Schedule;
 import children.models.User;
+import children.services.TimeManager;
 import children.views.BackgroundPanel;
 import children.views.LoginPanel;
 import com.google.api.client.json.Json;
@@ -27,12 +28,14 @@ public class MainFrame extends JFrame{
     private User user;
     private AppStatus appStatus;
     private boolean isParent;
+    private boolean isChildrenLoged;
     private Schedule schedule;
     BackgroundPanel backgroundPanel;
 
 
     private MainFrame(){
         isParent = false;
+        isChildrenLoged = false;
         loadingStatus();
         setupDatabase();
         listenScheduleChange();
@@ -91,15 +94,6 @@ public class MainFrame extends JFrame{
         catch (Exception e){
             appStatus = new AppStatus();
             saveStatus();
-//            try(FileOutputStream outputStream = new FileOutputStream("res/data/status.dat")){
-//                appStatus = new AppStatus();
-//                ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-//                objectOutputStream.writeObject(appStatus);
-//            }
-//            catch (Exception e1){
-//                e1.printStackTrace();
-//            }
-//            e.printStackTrace();
         }
     }
 
@@ -148,6 +142,10 @@ public class MainFrame extends JFrame{
                     String f = dataSnapshot.child("f").getValue().toString();
                     String t = dataSnapshot.child("t").getValue().toString();
                     schedule = new Schedule(f,t,d,s,i);
+                    TimeManager.stopMonitoringMode();
+                    if(!isParent && isChildrenLoged){
+                        TimeManager.MonitoringMode();
+                    }
                 }
 
                 @Override
@@ -172,6 +170,15 @@ public class MainFrame extends JFrame{
             return false;
         }
         return true;
+    }
+
+
+    public boolean isChildrenLoged() {
+        return isChildrenLoged;
+    }
+
+    public void setChildrenLoged(boolean childrenLoged) {
+        isChildrenLoged = childrenLoged;
     }
 
     public AppStatus getAppStatus() {
