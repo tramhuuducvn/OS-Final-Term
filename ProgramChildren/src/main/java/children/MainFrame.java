@@ -32,6 +32,7 @@ public class MainFrame extends JFrame{
     private boolean isChildrenLoged;
     private Schedule schedule;
     BackgroundPanel backgroundPanel;
+    LoginPanel loginPanel;
 
 
     private MainFrame(){
@@ -43,7 +44,8 @@ public class MainFrame extends JFrame{
         // init background
         backgroundPanel = new BackgroundPanel();
         getContentPane().add(backgroundPanel);
-        backgroundPanel.setContentPanel(new LoginPanel());
+        loginPanel = new LoginPanel();
+        backgroundPanel.setContentPanel(loginPanel);
 
         setTitle("Children Pogram");
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -121,6 +123,7 @@ public class MainFrame extends JFrame{
                     String childrenKey = dataSnapshot.child("childrenKey").getValue().toString();
                     String parentKey = dataSnapshot.child("parentKey").getValue().toString();
                     user = new User(computerId, name, childrenKey, parentKey);
+                    loginPanel.setEnableLoging();
                 }
 
                 @Override

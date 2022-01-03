@@ -42,7 +42,14 @@ public class LoginPanel extends JPanel{
 		add(passwordTextField);
 		add(loginBtn);
 
-		loginBtn.addMouseListener(loginBtnAction);
+		loginBtn.setEnabled(false);
+	}
+
+	public void setEnableLoging(){
+		if(loginBtn != null){
+			loginBtn.setEnabled(true);
+			loginBtn.addMouseListener(loginBtnAction);
+		}
 	}
 
 	MouseAdapter loginBtnAction = new MouseAdapter() {
