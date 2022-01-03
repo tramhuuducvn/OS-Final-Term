@@ -102,6 +102,13 @@ public class MainFrame extends JFrame {
         }
     };
 
+    private Thread installThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+
+        }
+    });
+
     private final MouseAdapter installBtnAction = new MouseAdapter() {
         @Override
         public void mouseReleased(MouseEvent e) {
@@ -179,7 +186,7 @@ public class MainFrame extends JFrame {
     public static void main(String[] args){
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("GTK+".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
