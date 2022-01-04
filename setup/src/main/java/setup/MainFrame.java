@@ -5,6 +5,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import org.apache.commons.io.FileUtils;
 import setup.models.Schedule;
 import setup.models.User;
 import setup.views.LicensePanel;
@@ -15,9 +16,12 @@ import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Enumeration;
 
 public class MainFrame extends JFrame {
@@ -25,6 +29,8 @@ public class MainFrame extends JFrame {
 
     private User user;
     private Schedule schedule;
+    private String pathInstall;
+    private String nameFolder = "ProgramChildren/";
 
     private JPanel containerPanel;
     private NodePanel currentPanel;
@@ -105,7 +111,39 @@ public class MainFrame extends JFrame {
     private Thread installThread = new Thread(new Runnable() {
         @Override
         public void run() {
+            installBtn.setText("Installing...");
+            installBtn.setEnabled(false);
+            try{
+                FileInputStream serviceAccount =  new FileInputStream("config-database.json");
+                FirebaseOptions options = new FirebaseOptions.Builder()
+                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                        .setDatabaseUrl("https://process-memory-management-default-rtdb.asia-southeast1.firebasedatabase.app")
+                        .build();
 
+                FirebaseApp.initializeApp(options);
+                DatabaseReference data = FirebaseDatabase.getInstance().getReference();
+                data.child("users").child(user.getComputerId()).setValueAsync(user);
+                data.child("schedules").child(user.getComputerId()).setValueAsync(schedule);
+                Thread.sleep(2000);
+
+                FileOutputStream fileOutputStream = new FileOutputStream(nameFolder + "res/data/computerId.dat");
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                objectOutputStream.writeObject(user.getComputerId());
+                objectOutputStream.close();
+                Thread.sleep(2000);
+
+                File src = new File(nameFolder);
+                File target = new File(pathInstall+nameFolder);
+                FileUtils.copyDirectory(src, target);
+                Thread.sleep(10000);
+            }
+            catch (Exception exception){
+                exception.printStackTrace();
+            }
+            installBtn.setText("Done!");
+            JOptionPane.showMessageDialog(null, "Install successed!\nYou need to restart your computer to apply changes!","Warning", JOptionPane.WARNING_MESSAGE);
+            dispose();
+            System.exit(0);
         }
     });
 
@@ -113,31 +151,7 @@ public class MainFrame extends JFrame {
         @Override
         public void mouseReleased(MouseEvent e) {
             if(SwingUtilities.isLeftMouseButton(e)) {
-                installBtn.setText("Installing...");
-                try{
-                    FileInputStream serviceAccount =  new FileInputStream("config-database.json");
-                    FirebaseOptions options = new FirebaseOptions.Builder()
-                            .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                            .setDatabaseUrl("https://process-memory-management-default-rtdb.asia-southeast1.firebasedatabase.app")
-                            .build();
-
-                    FirebaseApp.initializeApp(options);
-                    DatabaseReference data = FirebaseDatabase.getInstance().getReference();
-                    data.child("users").child(user.getComputerId()).setValueAsync(user);
-                    data.child("schedules").child(user.getComputerId()).setValueAsync(schedule);
-
-                    FileOutputStream fileOutputStream = new FileOutputStream("user.dat");
-                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                    objectOutputStream.writeObject(user.getComputerId());
-                    objectOutputStream.close();
-                }
-                catch (Exception exception){
-                    exception.printStackTrace();
-                }
-                installBtn.setText("Done!");
-                JOptionPane.showMessageDialog(null, "Install successed!\nYou need to restart your computer to apply changes!","Warning", JOptionPane.WARNING_MESSAGE);
-                dispose();
-                System.exit(0);
+                installThread.start();
             }
         }
     };
@@ -162,6 +176,14 @@ public class MainFrame extends JFrame {
             }
         }
     };
+
+    public String getPathInstall() {
+        return pathInstall;
+    }
+
+    public void setPathInstall(String pathInstall) {
+        this.pathInstall = pathInstall;
+    }
 
     public User getUser() {
         return user;

@@ -104,20 +104,27 @@ public class RegisterPanel extends NodePanel{
             JOptionPane.showMessageDialog(null, "Computer name field cannot be empty ","Warning", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        if(childrenKey == null || childrenKey.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Children password field cannot be empty ","Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-        if(parentKey == null || parentKey.isEmpty()){
+
+        if(parentKey.isEmpty()){
             JOptionPane.showMessageDialog(null, "Parent password field cannot be empty ","Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
-        }
-        if(!childrenKey.equals(rechildrenKey)){
-            JOptionPane.showMessageDialog(null, "Re-enter children password is not valid","Warning", JOptionPane.WARNING_MESSAGE);
             return false;
         }
         if(!parentKey.equals(reparentKey)){
             JOptionPane.showMessageDialog(null, "Re-enter parent password is not valid","Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        if(!childrenKey.equals(rechildrenKey)){
+            JOptionPane.showMessageDialog(null, "Re-enter children password is not valid","Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if(childrenKey.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Children password field cannot be empty ","Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+
+        if(parentKey.equals(childrenKey)){
+            JOptionPane.showMessageDialog(null, "Parent password cannot be as same as Children password!","Warning", JOptionPane.WARNING_MESSAGE);
             return false;
         }
 

@@ -23,6 +23,7 @@ public class ImageTool {
 		String fileName = "Screenshot from " +
 				calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + 1 + "-" + calendar.get(Calendar.DAY_OF_MONTH) + " " +
 				calendar.get(Calendar.HOUR_OF_DAY) + "-" + calendar.get(Calendar.MINUTE) + "-" + calendar.get(Calendar.SECOND) + ".png";
+		String pathFile = "images/" + computerId + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.MONTH) + 1 + "-" + calendar.get(Calendar.YEAR) + "/";
 		try {
 //			FileInputStream serviceAccount =  new FileInputStream("config-database.json");
 //			FirebaseOptions options = new FirebaseOptions.Builder()
@@ -39,7 +40,7 @@ public class ImageTool {
 			byte[] bytes = byteArrayOutputStream.toByteArray();
 
 			StorageClient storageClient = StorageClient.getInstance();
-			storageClient.bucket().create("images/" + computerId + "/" + fileName, bytes, "image/png");
+			storageClient.bucket().create(pathFile + fileName, bytes, "image/png");
 		}
 		catch (Exception e){
 			e.printStackTrace();

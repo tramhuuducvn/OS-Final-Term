@@ -4,6 +4,7 @@ import children.models.AppStatus;
 import children.models.Schedule;
 import children.models.User;
 import children.services.TimeManager;
+import children.utils.OsCheck;
 import children.views.BackgroundPanel;
 import children.views.LoginPanel;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -48,9 +49,9 @@ public class MainFrame extends JFrame{
         backgroundPanel.setContentPanel(loginPanel);
 
         setTitle("Children Pogram");
-//        setExtendedState(JFrame.MAXIMIZED_BOTH);
-//        setUndecorated(true);
-        setSize(1000,800);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
+//        setSize(1000,800);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
@@ -223,8 +224,13 @@ public class MainFrame extends JFrame{
 
     public static void main(String[] args){
         try {
+            String theme = "GTK+";
+            OsCheck.OSType type = OsCheck.getOperatingSystemType();
+            if(type == OsCheck.OSType.Windows){
+                theme = "Nimbus";
+            }
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("GTK+".equals(info.getName())) {
+                if (theme.equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -239,8 +245,10 @@ public class MainFrame extends JFrame{
                     UIManager.put(key, new FontUIResource(font));
                 }
             }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex ) {
             java.util.logging.Logger.getLogger(JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
         EventQueue.invokeLater(new Runnable() {

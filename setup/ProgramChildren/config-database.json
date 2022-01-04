@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "process-memory-management",
+  "private_key_id": "aa79b50796bdb32763942a179ac79273dbd7a4b9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDDtmz8dDVlASAo\ngqoUB+/2++MLCaxWVAuizSA+nBuZt50nFfoFQCggvcfUG7KevZitEhL4YpdB52eJ\nPYxv36vGOuRP3U09/ln5wVYiqTojHQPt/xzm69tVJMET+MzNHzxpF1q2lGNVG3ZI\n8Z0TWkgbubLlCA5sBuhsrP2DocJb7Wr3P5/mIZkhXJSH5vE2uDrLlLTbJBAifGdf\nuTaj65tIOj8EgvvsekCGytyxI/eUG/JVzqz0MyFAozbJF7RERQBsd7xsgeMkmtLa\n1LD3SnstHARe2rstxfaxnpa1odkTLnCuY4IVQ6lG8zqZnkt3sF9YzI96ixZzQRE9\ngSyHskLpAgMBAAECggEAA2QURFWBHVRlKb6F0t4GVtmrZ+QNg9tl7jauodcTlVi8\nlNJJKDEh4NtY7IBkWmK/k/QVtw8CPuaTASo7Vi7ia4dWsFmNvo67IVwrsWMMOlKE\n4GlEp22bucBuxflQFxe89LcuX653gCB/LqldBtpQGIbhph07Hr0J5uQialbxpqUR\nJlmsvE1eiTnipi1S3pf7lPudv84FEmvjLHlC+qXzadLe9U+6WR+uyMhmWiDxgmSV\nz4yYKHvDI4AtPcJVjjsAtzT3Pqdc8gOjvV6GqtiZtS8EA7SY1Vd0WzkWGZWPLyxd\nWXrVr8G4ZbycfOGn9xKKSlpDR7G5hnn+2aEHZZR8FwKBgQDzPc0zxCgBsDZWC7n3\nItRy+yLh/NiRiMcPGv7gMwNSLL9A0SwLcQZd/vbPNBgsMvXLrznXSt7k88Uqmmxy\n1ch7CLRuYT/YQLDBNUAc9YlWMMteo4ZzWNYDjOETgZnWUIUTQFcZ9io8m3xvbwea\nUhOTevBDv7CiEMyL7AMldTx8jwKBgQDN+mqf/eENyE3Ww2yoCDMZjFBKtqrjY/KI\ni99ShBYmqgOqZ31XxbtfqfFUuYNdgkThEZRWQ45DAShHfY9XZgTRi4OgMaxSDEA/\nL5wCgcAeKHP/oxFs7q/DpV+KCoMozynBHUubuq6GmzrF3rEauCeXsuZpRhGHKhZv\nFVL16cr1BwKBgQC8m6I+zo366SjoxYT4VYCIe6ULuGQxTO6VDuis7cFYeav+1XKi\nmIxIXEgCWLGZrBYdTwy5nKuCumaa50zKKmyewhwuLqgzxc2IswK4scdBFurKwl+h\nlzOzYwyvdGHV5W+agtxHHDKZ9jKhsWUiyxu00rH0xnFu6TnCEUpLREGXjwKBgFf+\n6Vpcfa8Dqa1cY6kNh7ccaJjinPL0GgMXrlp0L3ppG5PLDpNW2AuwcHc/oc1q/74f\nYn3P8pDRh8Gy9G/kF57luV/QmMucjD3yOvYfNFIt+hB2O9WLyu8MUVqJzyq6Bh6I\nQ2rOQA0ld+BcmNDPZ6q5NRI4aviRlG/0bjK8pIY1AoGBAKrolLT4Bo48XVSirffq\niR+HSzchpkX37epuq8SmU4Ev+HpIwBkyY1TMkH1XcB6zcXTozV/EkPLNWvajAkZb\n9eKIDJStapAh3QhSoXN4ZBkzMh+ciVev0oTohb8YAG4qG45O3h/zDGEEqWCvxuTB\nXUgqJGPb6vuunW/GSM7cOmPR\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-ravtz@process-memory-management.iam.gserviceaccount.com",
+  "client_id": "106377195300005418407",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ravtz%40process-memory-management.iam.gserviceaccount.com"
+}

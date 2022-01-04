@@ -1,6 +1,7 @@
 package children.views;
 
 import children.MainFrame;
+import children.services.PushNotify;
 import children.services.TimeManager;
 
 import javax.swing.*;
@@ -63,6 +64,7 @@ public class LoginPanel extends JPanel{
 				}
 
 				if(MainFrame.getInstance().getUser().getParentKey().equals(pass)){
+					PushNotify.notice("Parent", "Re-enter password after 60 minutes");
 					TimeManager.NoticeReEnterPassword();
 					passwordTextField.setText("");
 				}
