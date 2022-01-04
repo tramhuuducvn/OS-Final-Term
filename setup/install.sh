@@ -1,1 +1,1 @@
-cp /home/bully/Documents/HK5/ProgramChildren/children_program.sh.desktop ~/.config/autostart/
+cp /home/bully/Music/ProgramChildren/children_program.sh.desktop ~/.config/autostart/

@@ -10,6 +10,7 @@ import setup.models.Schedule;
 import setup.models.User;
 import setup.views.LicensePanel;
 import setup.views.NodePanel;
+import sun.awt.OSInfo;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
@@ -136,27 +137,14 @@ public class MainFrame extends JFrame {
                 File target = new File(pathInstall+nameFolder);
                 FileUtils.copyDirectory(src, target);
                 Thread.sleep(7000);
-
-                FileWriter writerRunFile = new FileWriter(pathInstall + nameFolder + "run.sh");
-                writerRunFile.write("cd " + pathInstall + nameFolder + " \n java -jar ProgramChildren.jar");
-                writerRunFile.close();
-
-                FileWriter writerStartFile = new FileWriter(pathInstall + nameFolder + "children_program.sh.desktop");
-                writerStartFile.write("[Desktop Entry]\n" +
-                        " Type=Application\n" +
-                        " Exec=" + pathInstall + nameFolder + "run.sh\n" +
-                        " Name=run\n" +
-                        " Comment=Children program");
-                writerStartFile.close();
-
-                FileWriter writerInstallFile = new FileWriter("install.sh");
-                writerInstallFile.write("cp " + pathInstall + nameFolder + "children_program.sh.desktop " + "~/.config/autostart/");
-                writerInstallFile.close();
-                Thread.sleep(750);
-                Runtime runtime = Runtime.getRuntime();
-                runtime.exec("chmod +x ./install.sh");
-                runtime.exec("./install.sh");
-                runtime.exec("chmod +x " + pathInstall + nameFolder + "run.sh");
+                OSInfo.OSType type = OSInfo.getOSType();
+                switch (type){
+                    case LINUX:
+                        installLinux();
+                        break;
+                    case WINDOWS:
+                        break;
+                }
             }
             catch (Exception exception){
                 exception.printStackTrace();
@@ -167,6 +155,36 @@ public class MainFrame extends JFrame {
             System.exit(0);
         }
     });
+
+    private void installLinux(){
+        try{
+            FileWriter writerRunFile = new FileWriter(pathInstall + nameFolder + "run.sh");
+            writerRunFile.write("cd " + pathInstall + nameFolder + " \n java -jar ProgramChildren.jar");
+            writerRunFile.close();
+
+            FileWriter writerStartFile = new FileWriter(pathInstall + nameFolder + "children_program.sh.desktop");
+            writerStartFile.write("[Desktop Entry]\n" +
+                    " Type=Application\n" +
+                    " Exec=" + pathInstall + nameFolder + "run.sh\n" +
+                    " Name=run\n" +
+                    " Comment=Children program");
+            writerStartFile.close();
+
+            FileWriter writerInstallFile = new FileWriter("install.sh");
+            writerInstallFile.write("cp " + pathInstall + nameFolder + "children_program.sh.desktop " + "~/.config/autostart/");
+            writerInstallFile.close();
+            Thread.sleep(750);
+            Runtime runtime = Runtime.getRuntime();
+            runtime.exec("chmod +x ./install.sh");
+            runtime.exec("./install.sh");
+            runtime.exec("chmod +x " + pathInstall + nameFolder + "run.sh");
+            Thread.sleep(750);
+            runtime.exec("reboot");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     private final MouseAdapter installBtnAction = new MouseAdapter() {
         @Override
@@ -228,8 +246,18 @@ public class MainFrame extends JFrame {
 
     public static void main(String[] args){
         try {
+            String theme = "GTK+";
+            OSInfo.OSType type = OSInfo.getOSType();
+            switch (type){
+                case LINUX:
+                    theme = "GTK+";
+                    break;
+                case WINDOWS:
+                    theme = "Nimbus";
+                    break;
+            }
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if (theme.equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -258,16 +286,6 @@ public class MainFrame extends JFrame {
             @Override
             public void run() {
                 MainFrame mainFrame = MainFrame.getInstance();
-//                try{
-//                    String[] a = {"\"/home/bully/Music/ProgramChildren/children_program.sh.desktop\"", "\"~/.config/autostart/\""};
-//                    Process p = Runtime.getRuntime().exec("chmod +x ./run.sh");
-//                    Runtime.getRuntime().exec("./run.sh");
-//                    BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-//                    System.out.println(br.readLine());
-//                }
-//                catch (Exception e){
-//                    e.printStackTrace();
-//                }
             }
         });
     }

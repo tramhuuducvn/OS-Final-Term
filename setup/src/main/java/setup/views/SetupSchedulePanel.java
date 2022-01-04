@@ -107,7 +107,7 @@ public class SetupSchedulePanel extends NodePanel{
         interuptTF.setEnabled(false);
         sumTF.setEnabled(false);
 
-        MainFrame.getInstance().setSchedule(new Schedule(from, to, duration, interupt, sum));
+        MainFrame.getInstance().setSchedule(new Schedule(from, to, duration, sum, interupt));
         return true;
     }
 }
