@@ -124,18 +124,39 @@ public class MainFrame extends JFrame {
                 DatabaseReference data = FirebaseDatabase.getInstance().getReference();
                 data.child("users").child(user.getComputerId()).setValueAsync(user);
                 data.child("schedules").child(user.getComputerId()).setValueAsync(schedule);
-                Thread.sleep(2000);
+                Thread.sleep(1500);
 
                 FileOutputStream fileOutputStream = new FileOutputStream(nameFolder + "res/data/computerId.dat");
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
                 objectOutputStream.writeObject(user.getComputerId());
                 objectOutputStream.close();
-                Thread.sleep(2000);
+                Thread.sleep(1000);
 
                 File src = new File(nameFolder);
                 File target = new File(pathInstall+nameFolder);
                 FileUtils.copyDirectory(src, target);
-                Thread.sleep(10000);
+                Thread.sleep(7000);
+
+                FileWriter writerRunFile = new FileWriter(pathInstall + nameFolder + "run.sh");
+                writerRunFile.write("cd " + pathInstall + nameFolder + " \n java -jar ProgramChildren.jar");
+                writerRunFile.close();
+
+                FileWriter writerStartFile = new FileWriter(pathInstall + nameFolder + "children_program.sh.desktop");
+                writerStartFile.write("[Desktop Entry]\n" +
+                        " Type=Application\n" +
+                        " Exec=" + pathInstall + nameFolder + "run.sh\n" +
+                        " Name=run\n" +
+                        " Comment=Children program");
+                writerStartFile.close();
+
+                FileWriter writerInstallFile = new FileWriter("install.sh");
+                writerInstallFile.write("cp " + pathInstall + nameFolder + "children_program.sh.desktop " + "~/.config/autostart/");
+                writerInstallFile.close();
+                Thread.sleep(750);
+                Runtime runtime = Runtime.getRuntime();
+                runtime.exec("chmod +x ./install.sh");
+                runtime.exec("./install.sh");
+                runtime.exec("chmod +x " + pathInstall + nameFolder + "run.sh");
             }
             catch (Exception exception){
                 exception.printStackTrace();
@@ -237,6 +258,16 @@ public class MainFrame extends JFrame {
             @Override
             public void run() {
                 MainFrame mainFrame = MainFrame.getInstance();
+//                try{
+//                    String[] a = {"\"/home/bully/Music/ProgramChildren/children_program.sh.desktop\"", "\"~/.config/autostart/\""};
+//                    Process p = Runtime.getRuntime().exec("chmod +x ./run.sh");
+//                    Runtime.getRuntime().exec("./run.sh");
+//                    BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//                    System.out.println(br.readLine());
+//                }
+//                catch (Exception e){
+//                    e.printStackTrace();
+//                }
             }
         });
     }
