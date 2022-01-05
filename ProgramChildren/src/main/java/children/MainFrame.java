@@ -150,7 +150,7 @@ public class MainFrame extends JFrame{
                     String f = dataSnapshot.child("f").getValue().toString();
                     String t = dataSnapshot.child("t").getValue().toString();
                     schedule = new Schedule(f,t,d,s,i);
-                    appStatus.setBreakTime(schedule.getI());
+//                    appStatus.setBreakTime(schedule.getI());
                     if(!isParent && isChildrenLoged){
                         TimeManager.stopMonitoringMode();
                         TimeManager.MonitoringMode();

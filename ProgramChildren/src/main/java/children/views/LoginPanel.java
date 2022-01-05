@@ -73,7 +73,7 @@ public class LoginPanel extends JPanel{
 						if(MainFrame.getInstance().getUser().getChildrenKey().equals(pass)) {
 							failedPass = 0;
 							int timebreak = MainFrame.getInstance().getAppStatus().getBreakTime();
-//							System.out.println("Timbreak:" + timebreak);
+							System.out.println(MainFrame.getInstance().getAppStatus().toString());
 							long remainBreakTime = -1;
 							Date shutdownDate = MainFrame.getInstance().getAppStatus().getTimeShutdown();
 							if(shutdownDate != null) {
