@@ -82,8 +82,8 @@ public class TimeManager{
                     break;
                 case Linux:
                     Runtime.getRuntime().exec("sleep 5");
-                    System.exit(0);
-//                    Runtime.getRuntime().exec("shutdown now");
+//                    System.exit(0);
+                    Runtime.getRuntime().exec("shutdown now");
                     break;
             }
         } catch (Exception e){

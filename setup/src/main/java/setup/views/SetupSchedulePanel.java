@@ -102,7 +102,7 @@ public class SetupSchedulePanel extends NodePanel{
         }
 
         fromTF.setEnabled(false);
-        toTF.setEnabled(false);ESysdsfsdfsd
+        toTF.setEnabled(false);
         durationTF.setEnabled(false);
         interuptTF.setEnabled(false);
         sumTF.setEnabled(false);
