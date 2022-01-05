@@ -7,6 +7,14 @@ public class Schedule {
     int s; // sum
     int i; // interrupt time
 
+    public Schedule() {
+        this.f = "00:00";
+        this.t = "00:00";
+        this.d = 1441;
+        this.s = 1441;
+        this.i = 0;
+    }
+
     public Schedule(String f, String t, int d, int s, int i) {
         this.f = f;
         this.t = t;

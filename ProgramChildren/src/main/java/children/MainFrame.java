@@ -21,9 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Enumeration;
+import java.util.*;
 
 public class MainFrame extends JFrame{
     private static MainFrame instance;
@@ -31,9 +29,11 @@ public class MainFrame extends JFrame{
     private AppStatus appStatus;
     private boolean isParent;
     private boolean isChildrenLoged;
-    private Schedule schedule;
+    private Schedule currentSchedule;
+    private ArrayList<Schedule> schedules;
     BackgroundPanel backgroundPanel;
     LoginPanel loginPanel;
+
 
 
     private MainFrame(){
@@ -49,9 +49,9 @@ public class MainFrame extends JFrame{
         backgroundPanel.setContentPanel(loginPanel);
 
         setTitle("Children Pogram");
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setUndecorated(true);
-//        setSize(1000,800);
+//        setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        setUndecorated(true);
+        setSize(1000,800);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
@@ -115,6 +115,7 @@ public class MainFrame extends JFrame{
                     .build();
             FirebaseApp.initializeApp(options);
 
+
             DatabaseReference data = FirebaseDatabase.getInstance().getReference();
             data.child("users").child(computerId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -144,17 +145,49 @@ public class MainFrame extends JFrame{
             data.child("schedules").child(computerId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    int s = Integer.parseInt(dataSnapshot.child("s").getValue().toString());
-                    int d = Integer.parseInt(dataSnapshot.child("d").getValue().toString());
-                    int i = Integer.parseInt(dataSnapshot.child("i").getValue().toString());
-                    String f = dataSnapshot.child("f").getValue().toString();
-                    String t = dataSnapshot.child("t").getValue().toString();
-                    schedule = new Schedule(f,t,d,s,i);
-//                    appStatus.setBreakTime(schedule.getI());
+//                    int s = Integer.parseInt(dataSnapshot.child("s").getValue().toString());
+//                    int d = Integer.parseInt(dataSnapshot.child("d").getValue().toString());
+//                    int i = Integer.parseInt(dataSnapshot.child("i").getValue().toString());
+//                    String f = dataSnapshot.child("f").getValue().toString();
+//                    String t = dataSnapshot.child("t").getValue().toString();
+//                    currentSchedule = new Schedule(f,t,d,s,i);
+////                    appStatus.setBreakTime(schedule.getI());
+//                    if(!isParent && isChildrenLoged){
+//                        TimeManager.stopMonitoringMode();
+//                        TimeManager.MonitoringMode();
+//                    }
+                    schedules = new ArrayList<>();
+                    int k = 1;
+                    while(dataSnapshot.hasChild(String.valueOf(k))){
+                        DataSnapshot snapshot = dataSnapshot.child(String.valueOf(k));
+//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        int s = 477484495, d = 477484495, i = 0;
+                        String f="", t="";
+                        if(snapshot.hasChild("s")){
+                            s = Integer.parseInt(snapshot.child("s").getValue().toString());
+                        }
+                        if(snapshot.hasChild("d")) {
+                            d = Integer.parseInt(snapshot.child("d").getValue().toString());
+                        }
+                        if(snapshot.hasChild("i")) {
+                            i = Integer.parseInt(snapshot.child("i").getValue().toString());
+                        }
+                        if(snapshot.hasChild("f")) {
+                            f = snapshot.child("f").getValue().toString();
+                        }
+                        if(snapshot.hasChild("t")){
+                            t = snapshot.child("t").getValue().toString();
+                        }
+                        Schedule newSchedule = new Schedule(f, t, d, s, i);
+                        schedules.add(newSchedule);
+                        k++;
+                    }
+
                     if(!isParent && isChildrenLoged){
                         TimeManager.stopMonitoringMode();
                         TimeManager.MonitoringMode();
                     }
+                    System.out.println(schedules);
                 }
 
                 @Override
@@ -181,6 +214,13 @@ public class MainFrame extends JFrame{
         return true;
     }
 
+    public ArrayList<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(ArrayList<Schedule> schedules) {
+        this.schedules = schedules;
+    }
 
     public boolean isChildrenLoged() {
         return isChildrenLoged;
@@ -214,12 +254,12 @@ public class MainFrame extends JFrame{
         this.user = user;
     }
 
-    public Schedule getSchedule() {
-        return schedule;
+    public Schedule getCurrentSchedule() {
+        return currentSchedule;
     }
 
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
+    public void setCurrentSchedule(Schedule currentSchedule) {
+        this.currentSchedule = currentSchedule;
     }
 
     public static void main(String[] args){
