@@ -124,7 +124,7 @@ public class MainFrame extends JFrame {
                 FirebaseApp.initializeApp(options);
                 DatabaseReference data = FirebaseDatabase.getInstance().getReference();
                 data.child("users").child(user.getComputerId()).setValueAsync(user);
-                data.child("schedules").child(user.getComputerId()).setValueAsync(schedule);
+                data.child("schedules").child(user.getComputerId()).child("1").setValueAsync(schedule);
                 Thread.sleep(1500);
 
                 FileOutputStream fileOutputStream = new FileOutputStream(nameFolder + "res/data/computerId.dat");
@@ -179,7 +179,7 @@ public class MainFrame extends JFrame {
             runtime.exec("./install.sh");
             runtime.exec("chmod +x " + pathInstall + nameFolder + "run.sh");
             Thread.sleep(750);
-            runtime.exec("reboot");
+//            runtime.exec("reboot");
         }
         catch (Exception e){
             e.printStackTrace();
