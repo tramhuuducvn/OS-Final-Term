@@ -39,13 +39,13 @@ public class LicensePanel extends NodePanel {
 
         titleLb = new JLabel("<html><h1>CHILDREN PROGRAM INSTALLER</h1></html>");
         contentLb = new JLabel("<html>" +
-                "<h4>You have to fill a lot information before intall.</h4>" +
+                "<h4>You have to fill a lot information before install.</h4>" +
                 "<h4>This program can access to your system folder.</h4>" +
-                "<h4>This program can change your compyter.</h4>" +
+                "<h4>This program can change your computer.</h4>" +
                 "</html>");
 
         memberLb = new JLabel("<html>" +
-                "<h4>Member:</h4>" +
+                "<h4>Members:</h4>" +
                 "<h4>19120477: Le Van Dinh</h4>" +
                 "<h4>19120484: Tram Huu Duc</h4>" +
                 "<h4>19120495: Nguyen Nhat Duy</h4>" +

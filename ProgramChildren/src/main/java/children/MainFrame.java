@@ -1,6 +1,7 @@
 package children;
 
 import children.models.AppStatus;
+import children.models.CustomTime;
 import children.models.Schedule;
 import children.models.User;
 import children.services.TimeManager;
@@ -22,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MainFrame extends JFrame{
     private static MainFrame instance;
@@ -145,22 +147,9 @@ public class MainFrame extends JFrame{
             data.child("schedules").child(computerId).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-//                    int s = Integer.parseInt(dataSnapshot.child("s").getValue().toString());
-//                    int d = Integer.parseInt(dataSnapshot.child("d").getValue().toString());
-//                    int i = Integer.parseInt(dataSnapshot.child("i").getValue().toString());
-//                    String f = dataSnapshot.child("f").getValue().toString();
-//                    String t = dataSnapshot.child("t").getValue().toString();
-//                    currentSchedule = new Schedule(f,t,d,s,i);
-////                    appStatus.setBreakTime(schedule.getI());
-//                    if(!isParent && isChildrenLoged){
-//                        TimeManager.stopMonitoringMode();
-//                        TimeManager.MonitoringMode();
-//                    }
                     schedules = new ArrayList<>();
-                    int k = 1;
-                    while(dataSnapshot.hasChild(String.valueOf(k))){
-                        DataSnapshot snapshot = dataSnapshot.child(String.valueOf(k));
-//                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         int s = 477484495, d = 477484495, i = 0;
                         String f="", t="";
                         if(snapshot.hasChild("s")){
@@ -180,13 +169,13 @@ public class MainFrame extends JFrame{
                         }
                         Schedule newSchedule = new Schedule(f, t, d, s, i);
                         schedules.add(newSchedule);
-                        k++;
                     }
 
                     if(!isParent && isChildrenLoged){
                         TimeManager.stopMonitoringMode();
                         TimeManager.MonitoringMode();
                     }
+                    sortSchedule(schedules);
                     System.out.println(schedules);
                 }
 
@@ -200,6 +189,15 @@ public class MainFrame extends JFrame{
         catch (Exception exception){
             exception.printStackTrace();
         }
+    }
+
+    public void sortSchedule(ArrayList<Schedule> schedules){
+        Collections.sort(schedules, new Comparator<Schedule>() {
+            @Override
+            public int compare(Schedule A, Schedule B) {
+                return A.getF().compareTo(B.getF());
+            }
+        });
     }
 
     public boolean saveStatus(){
