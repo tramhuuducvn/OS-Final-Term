@@ -18,11 +18,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Enumeration;
 
 public class MainFrame extends JFrame {
@@ -216,24 +211,12 @@ public class MainFrame extends JFrame {
         }
     };
 
-    public String getPathInstall() {
-        return pathInstall;
-    }
-
     public void setPathInstall(String pathInstall) {
         this.pathInstall = pathInstall;
     }
 
-    public User getUser() {
-        return user;
-    }
-
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Schedule getSchedule() {
-        return schedule;
     }
 
     public void setSchedule(Schedule schedule) {
@@ -267,7 +250,6 @@ public class MainFrame extends JFrame {
                 Object key = keys.nextElement();
                 Object value = UIManager.get(key);
                 if (value instanceof FontUIResource) {
-                    FontUIResource orig = (FontUIResource) value;
                     Font font = new Font("TimeNewRoman" , Font.PLAIN, 17);
                     UIManager.put(key, new FontUIResource(font));
                 }
@@ -282,11 +264,8 @@ public class MainFrame extends JFrame {
             java.util.logging.Logger.getLogger(JFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                MainFrame mainFrame = MainFrame.getInstance();
-            }
+        EventQueue.invokeLater(() -> {
+            MainFrame mainFrame = MainFrame.getInstance();
         });
     }
 }

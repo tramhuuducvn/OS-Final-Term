@@ -7,14 +7,6 @@ public class Schedule {
     int s; // sum
     int i; // interrupt time
 
-    public Schedule() {
-        this.f = "00:00";
-        this.t = "00:00";
-        this.d = 1441;
-        this.s = 1441;
-        this.i = 0;
-    }
-
     public Schedule(String f, String t, int d, int s, int i) {
         this.f = f;
         this.t = t;
@@ -23,54 +15,34 @@ public class Schedule {
         this.i = i;
     }
 
-    public boolean isChange(Schedule schedule){
-        if(f.equals(schedule.getF())
-                && t.equals(schedule.getT())
-                && d == schedule.getD()
-                && s == schedule.getS()
-                && i == schedule.getI()){
-            return true;
-        }
-        return false;
+    @Override
+    public String toString(){
+        return "F: " + f + "\n" +
+                "T: " + t + "\n" +
+                "D: " + d + "\n" +
+                "I: " + i + "\n" +
+                "S: " + s;
     }
+
+
 
     public String getF() {
         return f;
-    }
-
-    public void setF(String f) {
-        this.f = f;
     }
 
     public String getT() {
         return t;
     }
 
-    public void setT(String t) {
-        this.t = t;
-    }
-
     public int getD() {
         return d;
-    }
-
-    public void setD(int d) {
-        this.d = d;
     }
 
     public int getS() {
         return s;
     }
 
-    public void setS(int s) {
-        this.s = s;
-    }
-
     public int getI() {
         return i;
-    }
-
-    public void setI(int i) {
-        this.i = i;
     }
 }

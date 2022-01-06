@@ -1,7 +1,6 @@
 package children;
 
 import children.models.AppStatus;
-import children.models.CustomTime;
 import children.models.Schedule;
 import children.models.User;
 import children.services.TimeManager;
@@ -175,8 +174,8 @@ public class MainFrame extends JFrame{
                         TimeManager.stopMonitoringMode();
                         TimeManager.MonitoringMode();
                     }
-                    sortSchedule(schedules);
-                    System.out.println(schedules);
+                    schedules = sortSchedule(schedules);
+//                    System.out.println(schedules);
                 }
 
                 @Override
@@ -191,13 +190,8 @@ public class MainFrame extends JFrame{
         }
     }
 
-    public void sortSchedule(ArrayList<Schedule> schedules){
-        Collections.sort(schedules, new Comparator<Schedule>() {
-            @Override
-            public int compare(Schedule A, Schedule B) {
-                return A.getF().compareTo(B.getF());
-            }
-        });
+    public ArrayList<Schedule> sortSchedule(ArrayList<Schedule> schedules){
+        return (ArrayList<Schedule>) schedules.stream().sorted(Comparator.comparing(Schedule::getF)).collect(Collectors.toList());
     }
 
     public boolean saveStatus(){
@@ -216,24 +210,12 @@ public class MainFrame extends JFrame{
         return schedules;
     }
 
-    public void setSchedules(ArrayList<Schedule> schedules) {
-        this.schedules = schedules;
-    }
-
-    public boolean isChildrenLoged() {
-        return isChildrenLoged;
-    }
-
     public void setChildrenLoged(boolean childrenLoged) {
         isChildrenLoged = childrenLoged;
     }
 
     public AppStatus getAppStatus() {
         return appStatus;
-    }
-
-    public void setAppStatus(AppStatus appStatus) {
-        this.appStatus = appStatus;
     }
 
     public boolean isParent() {
@@ -246,10 +228,6 @@ public class MainFrame extends JFrame{
 
     public User getUser() {
         return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Schedule getCurrentSchedule() {
@@ -278,7 +256,6 @@ public class MainFrame extends JFrame{
                 Object key = keys.nextElement();
                 Object value = UIManager.get(key);
                 if (value instanceof FontUIResource) {
-                    FontUIResource orig = (FontUIResource) value;
                     Font font = new Font("TimeNewRoman" , Font.PLAIN, 17);
                     UIManager.put(key, new FontUIResource(font));
                 }
@@ -289,13 +266,10 @@ public class MainFrame extends JFrame{
             e.printStackTrace();
         }
 
-        EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
+        EventQueue.invokeLater(() -> {
 //				LoginPanel main = new LoginPanel();
-                MainFrame mainFrame = MainFrame.getInstance();
-			}
-		});
+                MainFrame.getInstance();
+        });
 	}
 }
 
