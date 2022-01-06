@@ -1,6 +1,9 @@
 package children.services;
 
+import children.utils.SoundUtils;
+
 import javax.swing.*;
+import java.awt.*;
 
 public class PushNotify {
 
@@ -21,7 +24,8 @@ public class PushNotify {
         Thread t = new Thread(() -> {
             try {
                 frame.setVisible(true);
-                Thread.sleep(5000);
+                SoundUtils.tone(432,500);
+                Thread.sleep(6000);
             } catch (Exception e){
                 e.printStackTrace();
             }

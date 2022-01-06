@@ -38,8 +38,8 @@ public class TimeManager{
             CustomTime f = new CustomTime(schedule.getF());
             CustomTime t = new CustomTime(schedule.getT());
             Calendar calendar = Calendar.getInstance();
-            int h = calendar.getTime().getHours();
-            int m = calendar.getTime().getMinutes();
+            int h = calendar.get(Calendar.HOUR_OF_DAY);
+            int m = calendar.get(Calendar.MINUTE);
             if (f.getHours() < h && h < t.getHours()) {
                 MainFrame.getInstance().setCurrentSchedule(schedule);
                 return true;
