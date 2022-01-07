@@ -138,6 +138,7 @@ public class MainFrame extends JFrame {
                         installLinux();
                         break;
                     case WINDOWS:
+                        installWindow();
                         break;
                 }
             }
@@ -177,6 +178,19 @@ public class MainFrame extends JFrame {
 //            runtime.exec("reboot");
         }
         catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void installWindow() {
+        try {
+            FileWriter writerRunFile = new FileWriter("children_program.bat");
+            writerRunFile.write("cd " + pathInstall + nameFolder + " \n java -jar ProgramChildren.jar");
+            System.out.println("Installing");
+            writerRunFile.close();
+            Thread.sleep(1500);
+        }
+        catch(Exception e) {
             e.printStackTrace();
         }
     }
