@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
     private User user;
     private Schedule schedule;
     private String pathInstall;
-    private String nameFolder = "ProgramChildren/";
+    private final String nameFolder = "ProgramChildren/";
 
     private JPanel containerPanel;
     private NodePanel currentPanel;
@@ -145,10 +145,6 @@ public class MainFrame extends JFrame {
             catch (Exception exception){
                 exception.printStackTrace();
             }
-            installBtn.setText("Done!");
-            JOptionPane.showMessageDialog(null, "Install successed!\nYou need to restart your computer to apply changes!","Warning", JOptionPane.WARNING_MESSAGE);
-            dispose();
-            System.exit(0);
         }
     });
 
@@ -175,7 +171,12 @@ public class MainFrame extends JFrame {
             runtime.exec("./install.sh");
             runtime.exec("chmod +x " + pathInstall + nameFolder + "run.sh");
             Thread.sleep(750);
-//            runtime.exec("reboot");
+
+            installBtn.setText("Done!");
+            JOptionPane.showMessageDialog(null, "Install successed!\nYou need to restart your computer to apply changes!","Warning", JOptionPane.WARNING_MESSAGE);
+            runtime.exec("reboot");
+            dispose();
+            System.exit(0);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -184,11 +185,20 @@ public class MainFrame extends JFrame {
 
     private void installWindow() {
         try {
-            FileWriter writerRunFile = new FileWriter("children_program.bat");
-            writerRunFile.write("cd " + pathInstall + nameFolder + " \n java -jar ProgramChildren.jar");
+            String usernameWindow = System.getProperty("user.name");
+            FileWriter writerRunFile = new FileWriter("C:\\Users\\"+ usernameWindow + "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\"+"children_program.bat");
+            writerRunFile.write(pathInstall.charAt(0) + ":\n" +
+                    "cd " + pathInstall + nameFolder +
+                    "\nstart ProgramChildren.jar");
             System.out.println("Installing");
             writerRunFile.close();
-            Thread.sleep(1500);
+            Thread.sleep(750);
+
+            installBtn.setText("Done!");
+            JOptionPane.showMessageDialog(null, "Install successed!\nYou need to restart your computer to apply changes!","Warning", JOptionPane.WARNING_MESSAGE);
+            Runtime.getRuntime().exec("shutdown -r -t 0");
+            dispose();
+            System.exit(0);
         }
         catch(Exception e) {
             e.printStackTrace();
